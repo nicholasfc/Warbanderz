@@ -1,18 +1,52 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h3>Welcome to Site</h3>
+    <template v-if="isAdmin">
+      <h3>Add user to admin</h3>
+      <div class="row">
+        <form @submit.prevent="addAdmin()" class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="email" v-model="email" required />
+              <label>Email</label>
+            </div>
+          </div>
+          <button type="submit" class="btn">Submit</button>
+          <router-link to="/members" class="btn grey">Cancel</router-link>
+        </form>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import firebase from "firebase/app";
+import { db, fc } from "../data/firebaseInit";
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
+  name: "home",
+  data() {
+    return {
+      email: null,
+      isAdmin: false
+    };
+  },
+  created() {
+    firebase
+      .auth()
+      .currentUser.getIdTokenResult()
+      .then(idTokenResult => {
+        if (idTokenResult.claims.admin) {
+          this.isAdmin = true;
+        }
+      });
+  },
+  methods: {
+    addAdmin() {
+      const addAdminRole = fc.httpsCallable("addAdminRole");
+      addAdminRole({ email: this.email }).then(result => {
+        console.log(result);
+      });
+    }
   }
-}
+};
 </script>
