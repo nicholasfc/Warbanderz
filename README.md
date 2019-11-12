@@ -1,24 +1,5 @@
 # warbanderz
 
-## Project setup
-```
-npm install
-```
+Personal Project Made with Vue.js and Firebase Auth, Functions and Firestore. It is and activity tracker made for my runecape clan so we can track our members participation.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+It is currently being developed and is not in any away a finished product.
