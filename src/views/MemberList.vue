@@ -12,7 +12,9 @@
           <th>Host</th>
           <th>Total</th>
           <th>Comments</th>
-          <th>-</th>
+          <template v-if="isAdmin">
+            <th>-</th>
+          </template>
         </tr>
       </thead>
       <tbody>
@@ -24,11 +26,11 @@
           <td>{{member.alt}}</td>
           <td>
             {{member.scout}}
-            <i class="fas fa-plus"></i>
+            <i class="fas fa-plus" @click="addScout(index)"></i>
           </td>
           <td>
             {{member.anti}}
-            <i class="fas fa-plus"></i>
+            <i class="fas fa-plus" @click="addAnti(index)"></i>
           </td>
           <td>
             {{member.host}}
@@ -36,15 +38,17 @@
           </td>
           <td>{{member.total}}</td>
           <td>{{member.comments}}</td>
-          <td>
-            <router-link
-              v-if="member.name"
-              :to="{path: '/', name: 'edit', params: {name: member.name}}"
-            >
-              <i class="fas fa-edit"></i>
-            </router-link>
-            <i class="fas fa-trash"></i>
-          </td>
+          <template v-if="isAdmin">
+            <td>
+              <router-link
+                v-if="member.name"
+                :to="{path: '/', name: 'edit', params: {name: member.name}}"
+              >
+                <i class="fas fa-edit"></i>
+              </router-link>
+              <i class="fas fa-trash" @click="deletePlayer(index)"></i>
+            </td>
+          </template>
         </tr>
       </tbody>
     </table>
@@ -57,11 +61,13 @@
 </template>
 
 <script>
-import { db, fv } from "../data/firebaseInit";
+import { db, fv, tstp } from "../data/firebaseInit";
+import firebase from "firebase/app";
 export default {
   name: "memberlist",
   data() {
     return {
+      isAdmin: false,
       members: []
     };
   },
@@ -78,9 +84,70 @@ export default {
             });
           });
         });
+      db.collection("pointLog").add({
+        name: this.members[index].name,
+        time: tstp.fromDate(new Date()),
+        pointField: "host"
+      });
+    },
+    addScout(index) {
+      db.collection("members")
+        .where("name", "==", this.members[index].name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              scout: fv.increment(1),
+              total: fv.increment(1)
+            });
+          });
+        });
+      db.collection("pointLog").add({
+        name: this.members[index].name,
+        time: tstp.fromDate(new Date()),
+        pointField: "scout"
+      });
+    },
+    addAnti(index) {
+      db.collection("members")
+        .where("name", "==", this.members[index].name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              anti: fv.increment(1),
+              total: fv.increment(1)
+            });
+          });
+        });
+      db.collection("pointLog").add({
+        name: this.members[index].name,
+        time: tstp.fromDate(new Date()),
+        pointField: "anti"
+      });
+    },
+    deletePlayer(index) {
+      if (confirm("Are you sure?")) {
+        db.collection("members")
+          .where("name", "==", this.members[index].name)
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              doc.ref.delete();
+            });
+          });
+      }
     }
   },
   created() {
+    firebase
+      .auth()
+      .currentUser.getIdTokenResult()
+      .then(idTokenResult => {
+        if (idTokenResult.claims.admin) {
+          this.isAdmin = true;
+        }
+      });
     db.collection("members")
       .orderBy("name")
       .get()
