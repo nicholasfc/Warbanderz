@@ -14,17 +14,18 @@
     </ul>
     <router-link to="/member" class="btn grey">Return</router-link>
     <router-link
-      v-if="name"
+      v-if="name && isAdmin"
       :to="{path: '/', name: 'edit', params: {name: name}}"
       class="btn grey"
     >Edit</router-link>
-    <button @click="deletePlayer()" class="btn red">Delete</button>
+    <button v-if="isAdmin" @click="deletePlayer()" class="btn red">Delete</button>
   </div>
 </template>
 
 
 <script>
 import { db } from "../data/firebaseInit";
+import firebase from "firebase/app";
 export default {
   name: "member",
   data() {
@@ -36,8 +37,19 @@ export default {
       anti: null,
       host: null,
       total: null,
-      comments: null
+      comments: null,
+      isAdmin: false
     };
+  },
+  created() {
+    firebase
+      .auth()
+      .currentUser.getIdTokenResult()
+      .then(idTokenResult => {
+        if (idTokenResult.claims.admin) {
+          this.isAdmin = true;
+        }
+      });
   },
   beforeRouteEnter(to, from, next) {
     db.collection("members")
