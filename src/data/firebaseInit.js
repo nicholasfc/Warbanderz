@@ -7,7 +7,8 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const fc = firebase.functions();
 const db = firebase.firestore();
 const fv = firebase.firestore.FieldValue;
+const tstp = firebase.firestore.Timestamp;
 
-export { fc, db, fv };
+export { fc, db, fv, tstp };
 
 export default firebaseApp.firestore();
