@@ -24,6 +24,7 @@
           </div>
         </div>
       </div>
+      <router-link to="/resetpw">Forgot Password?</router-link>
     </div>
   </div>
 </template>
