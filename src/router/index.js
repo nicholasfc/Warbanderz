@@ -5,9 +5,11 @@ import Memberlist from "../views/MemberList";
 import AddPlayer from "../views/AddPlayer";
 import Member from "../views/Member";
 import EditPlayer from "../views/EditPlayer";
-import AddWave from "../views/AddWave";
 import Login from "../views/Login";
 import Register from "../views/Register";
+import ResetPw from "../views/ResetPw";
+import PointLog from "../views/PointLog";
+import RemovedLog from "../views/RemovedLog";
 import firebase from "firebase/app";
 
 Vue.use(VueRouter);
@@ -38,6 +40,14 @@ const routes = [
     }
   },
   {
+    path: "/resetpw",
+    name: "resetpw",
+    component: ResetPw,
+    meta: {
+      requiresGuest: true
+    }
+  },
+  {
     path: "/member",
     name: "memberlist",
     component: Memberlist,
@@ -46,9 +56,17 @@ const routes = [
     }
   },
   {
-    path: "/wave",
-    name: "addwave",
-    component: AddWave,
+    path: "/removed",
+    name: "removedlog",
+    component: RemovedLog,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/log",
+    name: "pointlog",
+    component: PointLog,
     meta: {
       requiresAuth: true
     }
