@@ -71,7 +71,7 @@ export default {
       anti: null,
       host: null,
       total: null,
-      comments: null
+      comments: ""
     };
   },
   beforeRouteEnter(to, from, next) {
