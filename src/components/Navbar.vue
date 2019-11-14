@@ -10,6 +10,12 @@
           <li v-if="isLoggedIn && isAdmin">
             <router-link to="/add">Add Player</router-link>
           </li>
+          <li v-if="isLoggedIn && isAdmin">
+            <router-link to="/log">Point Log</router-link>
+          </li>
+          <li v-if="isLoggedIn && isAdmin">
+            <router-link to="/removed">Removed Log</router-link>
+          </li>
           <li v-if="!isLoggedIn">
             <router-link to="/login">Login</router-link>
           </li>
