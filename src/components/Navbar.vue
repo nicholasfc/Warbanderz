@@ -7,11 +7,8 @@
           <li v-if="isLoggedIn">
             <router-link to="/member">Member List</router-link>
           </li>
-          <li v-if="isLoggedIn">
+          <li v-if="isLoggedIn && isAdmin">
             <router-link to="/add">Add Player</router-link>
-          </li>
-          <li v-if="isLoggedIn">
-            <router-link to="/wave">Add Wave</router-link>
           </li>
           <li v-if="!isLoggedIn">
             <router-link to="/login">Login</router-link>
@@ -35,13 +32,20 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      currentUser: false
+      isAdmin: false
     };
   },
   created() {
+    firebase
+      .auth()
+      .currentUser.getIdTokenResult()
+      .then(idTokenResult => {
+        if (idTokenResult.claims.admin) {
+          this.isAdmin = true;
+        }
+      });
     if (firebase.auth().currentUser) {
       this.isLoggedIn = true;
-      this.currentUser = firebase.auth().currentUser.email;
     }
   },
   methods: {
