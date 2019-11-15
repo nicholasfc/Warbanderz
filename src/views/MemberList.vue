@@ -25,14 +25,17 @@
           <td>{{member.rank}}</td>
           <td>{{member.alt}}</td>
           <td>
+            <i class="fas fa-minus" @click="removeScout(index)"></i>
             {{member.scout}}
             <i class="fas fa-plus" @click="addScout(index)"></i>
           </td>
           <td>
+            <i class="fas fa-minus" @click="removeAnti(index)"></i>
             {{member.anti}}
             <i class="fas fa-plus" @click="addAnti(index)"></i>
           </td>
           <td>
+            <i class="fas fa-minus" @click="removeHost(index)"></i>
             {{member.host}}
             <i class="fas fa-plus" @click="addHost(index)"></i>
           </td>
@@ -106,7 +109,8 @@ export default {
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
-        pointField: "host"
+        pointField: "host",
+        addRemove: "added"
       });
     },
     addScout(index) {
@@ -125,7 +129,8 @@ export default {
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
-        pointField: "scout"
+        pointField: "scout",
+        addRemove: "added"
       });
     },
     addAnti(index) {
@@ -144,7 +149,68 @@ export default {
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
-        pointField: "anti"
+        pointField: "anti",
+        addRemove: "added"
+      });
+    },
+    removeHost(index) {
+      db.collection("members")
+        .where("name", "==", this.members[index].name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              host: fv.increment(-1),
+              total: fv.increment(-1)
+            });
+          });
+        })
+        .then(() => this.fetchDb());
+      db.collection("pointLog").add({
+        name: this.members[index].name,
+        time: tstp.fromDate(new Date()),
+        pointField: "host",
+        addRemove: "removed"
+      });
+    },
+    removeAnti(index) {
+      db.collection("members")
+        .where("name", "==", this.members[index].name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              anti: fv.increment(-1),
+              total: fv.increment(-1)
+            });
+          });
+        })
+        .then(() => this.fetchDb());
+      db.collection("pointLog").add({
+        name: this.members[index].name,
+        time: tstp.fromDate(new Date()),
+        pointField: "host",
+        addRemove: "removed"
+      });
+    },
+    removeScout(index) {
+      db.collection("members")
+        .where("name", "==", this.members[index].name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              scout: fv.increment(-1),
+              total: fv.increment(-1)
+            });
+          });
+        })
+        .then(() => this.fetchDb());
+      db.collection("pointLog").add({
+        name: this.members[index].name,
+        time: tstp.fromDate(new Date()),
+        pointField: "host",
+        addRemove: "removed"
       });
     },
     deletePlayer(index) {
