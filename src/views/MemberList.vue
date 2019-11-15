@@ -1,7 +1,63 @@
 <template>
   <div>
-    <h3>Member List</h3>
-    <table class="striped centered">
+    <h3 class="font-weight-medium text-center">Member List</h3>
+    <v-simple-table fixed-header>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+            <th class="text-left">Rank</th>
+            <th class="text-left">Alt</th>
+            <th class="text-left">Scout</th>
+            <th class="text-left">Anti</th>
+            <th class="text-left">Host</th>
+            <th class="text-left">Total</th>
+            <th class="text-left">Comments</th>
+            <template v-if="isAdmin">
+              <th class="text-left">-</th>
+            </template>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(member, index) in members" :key="index">
+            <td>
+              <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link>
+            </td>
+            <td>{{member.rank}}</td>
+            <td>{{member.alt}}</td>
+            <td>
+              <v-icon @click="removeScout(index)">mdi-minus</v-icon>
+              {{member.scout}}
+              <v-icon @click="addScout(index)">mdi-plus</v-icon>
+            </td>
+            <td>
+              <v-icon @click="removeAnti(index)">mdi-minus</v-icon>
+              {{member.anti}}
+              <v-icon @click="addAnti(index)">mdi-plus</v-icon>
+            </td>
+            <td>
+              <v-icon @click="removeHost(index)">mdi-minus</v-icon>
+              {{member.host}}
+              <v-icon @click="addHost(index)">mdi-plus</v-icon>
+            </td>
+            <td>{{member.total}}</td>
+            <td>{{member.comments}}</td>
+            <template v-if="isAdmin">
+              <td>
+                <router-link
+                  v-if="member.name"
+                  :to="{path: '/', name: 'edit', params: {name: member.name}}"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </router-link>
+                <v-icon @click="deletePlayer(index)">mdi-delete</v-icon>
+              </td>
+            </template>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+    <!-- <table class="striped centered">
       <thead>
         <tr>
           <th>Name</th>
@@ -54,7 +110,7 @@
           </template>
         </tr>
       </tbody>
-    </table>
+    </table>-->
   </div>
 </template>
 

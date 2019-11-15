@@ -1,33 +1,33 @@
 <template>
-  <div id="nav">
-    <nav>
-      <div class="nav-wrapper">
-        <router-link to="/" class="brand-logo">Home</router-link>
-        <ul id="nav-mobile" class="right">
-          <li v-if="isLoggedIn">
-            <router-link to="/member">Member List</router-link>
-          </li>
-          <li v-if="isLoggedIn && isAdmin">
-            <router-link to="/add">Add Player</router-link>
-          </li>
-          <li v-if="isLoggedIn && isAdmin">
-            <router-link to="/log">Point Log</router-link>
-          </li>
-          <li v-if="isLoggedIn && isAdmin">
-            <router-link to="/removed">Removed Log</router-link>
-          </li>
-          <li v-if="!isLoggedIn">
-            <router-link to="/login">Login</router-link>
-          </li>
-          <li v-if="!isLoggedIn">
-            <router-link to="/register">Register</router-link>
-          </li>
-          <li v-if="isLoggedIn">
-            <button @click="logout()" class="btn black">Logout</button>
-          </li>
-        </ul>
-      </div>
-    </nav>
+  <div>
+    <v-toolbar dark dense flat>
+      <v-toolbar-title>
+        <router-link to="/">Warbanderz</router-link>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items>
+        <v-btn text v-if="isLoggedIn">
+          <router-link to="/member">Member list</router-link>
+        </v-btn>
+        <v-btn text v-if="isLoggedIn && isAdmin">
+          <router-link to="/add">Add Player</router-link>
+        </v-btn>
+        <v-btn text v-if="isLoggedIn && isAdmin">
+          <router-link to="/log">Points Log</router-link>
+        </v-btn>
+        <v-btn text v-if="isLoggedIn && isAdmin">
+          <router-link to="/removed">Removed Log</router-link>
+        </v-btn>
+        <v-btn text v-if="!isLoggedIn">
+          <router-link to="/login">Login</router-link>
+        </v-btn>
+        <v-btn text v-if="!isLoggedIn">
+          <router-link to="/register">Register</router-link>
+        </v-btn>
+        <v-btn color="red" tile depressed v-if="isLoggedIn" @click="logout()">Logout</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
   </div>
 </template>
 
