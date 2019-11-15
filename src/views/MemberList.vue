@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(member, index) in members" :key="member.id">
+        <tr v-for="(member, index) in members" :key="index">
           <td>
             <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link>
           </td>
@@ -52,11 +52,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div class="fixed-action-btn">
-      <router-link to="/add" class="btn-floating btn-large red">
-        <i class="fa fa-plus"></i>
-      </i>
-    </div>-->
   </div>
 </template>
 
@@ -64,14 +59,37 @@
 import { db, fv, tstp } from "../data/firebaseInit";
 import firebase from "firebase/app";
 export default {
-  name: "memberlist",
   data() {
     return {
       isAdmin: false,
       members: []
     };
   },
+  created() {
+    firebase
+      .auth()
+      .currentUser.getIdTokenResult()
+      .then(idTokenResult => {
+        if (idTokenResult.claims.admin) {
+          this.isAdmin = true;
+        }
+      });
+    this.fetchDb();
+  },
   methods: {
+    fetchDb() {
+      const members = [];
+      db.collection("members")
+        .orderBy("name")
+        .onSnapshot(snap => {
+          snap.forEach(doc => {
+            let newPlayer = doc.data();
+            newPlayer.id = doc.id;
+            members.push(newPlayer);
+          });
+          this.members = members;
+        });
+    },
     addHost(index) {
       db.collection("members")
         .where("name", "==", this.members[index].name)
@@ -83,7 +101,8 @@ export default {
               total: fv.increment(1)
             });
           });
-        });
+        })
+        .then(() => this.fetchDb());
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
@@ -101,7 +120,8 @@ export default {
               total: fv.increment(1)
             });
           });
-        });
+        })
+        .then(() => this.fetchDb());
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
@@ -119,7 +139,8 @@ export default {
               total: fv.increment(1)
             });
           });
-        });
+        })
+        .then(() => this.fetchDb());
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
@@ -135,39 +156,10 @@ export default {
             querySnapshot.forEach(doc => {
               doc.ref.delete();
             });
-          });
+          })
+          .then(() => this.fetchDb());
       }
     }
-  },
-  created() {
-    firebase
-      .auth()
-      .currentUser.getIdTokenResult()
-      .then(idTokenResult => {
-        if (idTokenResult.claims.admin) {
-          this.isAdmin = true;
-        }
-      });
-    db.collection("members")
-      .orderBy("name")
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          // console.log(doc.data());
-          const data = {
-            id: doc.id,
-            name: doc.data().name,
-            rank: doc.data().rank,
-            alt: doc.data().alt,
-            scout: doc.data().scout,
-            anti: doc.data().anti,
-            host: doc.data().host,
-            total: doc.data().total,
-            comments: doc.data().comments
-          };
-          this.members.push(data);
-        });
-      });
   }
 };
 </script>
