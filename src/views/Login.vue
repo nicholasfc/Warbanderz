@@ -1,6 +1,34 @@
 <template>
-  <div>
-    <div class="container">
+  <div class="login">
+    <v-content>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card>
+              <v-toolbar flat>
+                <v-toolbar-title>Login</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field v-model="email" label="E-mail" required></v-text-field>
+
+                  <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    type="password"
+                    v-model="password"
+                  />
+                  <v-btn text class="success" @click="login()">Login</v-btn>
+                </v-form>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+
+    <!-- <div class="container">
       <div class="row">
         <div class="col s12 m8 offset-m2">
           <div class="login card-panel green white-text center">
@@ -25,7 +53,7 @@
         </div>
       </div>
       <router-link to="/resetpw">Forgot Password?</router-link>
-    </div>
+    </div>-->
   </div>
 </template>
 
