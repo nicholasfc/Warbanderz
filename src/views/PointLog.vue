@@ -1,11 +1,26 @@
 <template>
-  <div>
-    <h3>Point Log</h3>
+  <div class="point-log">
+    <v-content>
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="4">
+          <v-toolbar-title align="center">Point Log</v-toolbar-title>
+          <v-card-text align="center">
+            <p
+              v-for="log in logs"
+              :key="log.id"
+            >{{log.name}} got {{log.pointField}} point {{log.addRemove}} @ {{log.time.toDate() | formatDate}}</p>
+          </v-card-text>
+        </v-col>
+      </v-row>
+    </v-content>
+  </div>
+
+  <!-- <h3>Point Log</h3>
     <p
       v-for="log in logs"
       :key="log.id"
     >{{log.name}} got {{log.pointField}} point {{log.addRemove}} @ {{log.time.toDate() | formatDate}}</p>
-  </div>
+  </div>-->
 </template>
 
 <script>
