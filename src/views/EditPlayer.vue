@@ -1,61 +1,28 @@
 <template>
   <div class="edit-player">
-    <h3>Edit Player</h3>
-
-    <div class="row">
-      <form @submit.prevent="updatePlayer()" class="col s12">
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="name" />
-            <label class="active">Player Name</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="rank" />
-            <label class="active">Rank</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="alt" />
-            <label class="active">Alt Name</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" v-model.number="scout" />
-            <label class="active">Scout Points</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" v-model.number="anti" />
-            <label class="active">Anti Points</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" v-model.number="host" />
-            <label class="active">Host Points</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="number" v-model.number="total" />
-            <label class="active">Total Points</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="comments" />
-            <label class="active">Comments</label>
-          </div>
-        </div>
-        <button type="submit" class="btn">Submit</button>
-        <router-link to="/member" class="btn grey">Cancel</router-link>
-      </form>
-    </div>
+    <v-content>
+      <v-container>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-toolbar-title align="center">Player Edit</v-toolbar-title>
+            <v-card-text>
+              <v-form>
+                <v-text-field label="Player Name" v-model="name" required></v-text-field>
+                <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
+                <v-text-field label="Alt Name" v-model="alt"></v-text-field>
+                <v-text-field label="Scout Points" v-model.number="scout"></v-text-field>
+                <v-text-field label="Anti Points" v-model.number="anti"></v-text-field>
+                <v-text-field label="Host Points" v-model.number="host"></v-text-field>
+                <v-text-field label="Total Points" v-model.number="total"></v-text-field>
+                <v-text-field label="Comments" v-model="comments"></v-text-field>
+                <v-btn text small class="success" @click="updatePlayer()">Update Player</v-btn>
+                <v-btn text small to="/member" class="error">Return</v-btn>
+              </v-form>
+            </v-card-text>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
   </div>
 </template>
 
@@ -71,7 +38,15 @@ export default {
       anti: null,
       host: null,
       total: null,
-      comments: ""
+      comments: "",
+      ranks: [
+        "Smiley",
+        "1 Banana",
+        "2 Banana",
+        "3 Banana",
+        "Bronze Star",
+        "Silver Star"
+      ]
     };
   },
   beforeRouteEnter(to, from, next) {
