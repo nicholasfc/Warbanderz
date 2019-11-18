@@ -6,16 +6,16 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Rank</th>
-              <th class="text-left">Alt</th>
-              <th class="text-left">Scout</th>
-              <th class="text-left">Anti</th>
-              <th class="text-left">Host</th>
-              <th class="text-left">Total</th>
-              <th class="text-left">Comments</th>
+              <th class="text-left title">Name</th>
+              <th class="text-left title">Rank</th>
+              <th class="text-left title">Alt</th>
+              <th class="text-left title">Scout</th>
+              <th class="text-left title">Anti</th>
+              <th class="text-left title">Host</th>
+              <th class="text-left title">Total</th>
+              <th class="text-left title">Comments</th>
               <template v-if="isAdmin">
-                <th class="text-left">-</th>
+                <th class="text-left"></th>
               </template>
             </tr>
           </thead>
