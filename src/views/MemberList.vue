@@ -50,67 +50,15 @@
                 >
                   <v-icon>mdi-pencil</v-icon>
                 </router-link>
-                <v-icon @click="deletePlayer(index)">mdi-delete</v-icon>
+                <router-link :to="{ path:'/', name: 'delete', params: { name: member.name }}">
+                  <v-icon>mdi-delete</v-icon>
+                </router-link>
               </td>
             </template>
           </tr>
         </tbody>
       </template>
     </v-simple-table>
-    <!-- <table class="striped centered">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Rank</th>
-          <th>Alt</th>
-          <th>Scout</th>
-          <th>Anti</th>
-          <th>Host</th>
-          <th>Total</th>
-          <th>Comments</th>
-          <template v-if="isAdmin">
-            <th>-</th>
-          </template>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(member, index) in members" :key="index">
-          <td>
-            <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link>
-          </td>
-          <td>{{member.rank}}</td>
-          <td>{{member.alt}}</td>
-          <td>
-            <i class="fas fa-minus" @click="removeScout(index)"></i>
-            {{member.scout}}
-            <i class="fas fa-plus" @click="addScout(index)"></i>
-          </td>
-          <td>
-            <i class="fas fa-minus" @click="removeAnti(index)"></i>
-            {{member.anti}}
-            <i class="fas fa-plus" @click="addAnti(index)"></i>
-          </td>
-          <td>
-            <i class="fas fa-minus" @click="removeHost(index)"></i>
-            {{member.host}}
-            <i class="fas fa-plus" @click="addHost(index)"></i>
-          </td>
-          <td>{{member.total}}</td>
-          <td>{{member.comments}}</td>
-          <template v-if="isAdmin">
-            <td>
-              <router-link
-                v-if="member.name"
-                :to="{path: '/', name: 'edit', params: {name: member.name}}"
-              >
-                <i class="fas fa-edit"></i>
-              </router-link>
-              <i class="fas fa-trash" @click="deletePlayer(index)"></i>
-            </td>
-          </template>
-        </tr>
-      </tbody>
-    </table>-->
   </div>
 </template>
 
