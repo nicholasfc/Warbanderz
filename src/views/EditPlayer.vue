@@ -121,30 +121,3 @@ export default {
 
 <style>
 </style>
-
-<!--
-<div class="input-field col s12">
-          <select v-model="rank">
-            <option value disabled selected>Choose your rank</option>
-            <option value="Smiley">Smiley</option>
-            <option value="1 banana">1 Banana</option>
-            <option value="2 banana">2 Banana</option>
-            <option value="3 banana">3 Banana</option>
-            <option value="bronze star">Bronze Star</option>
-            <option value="silver star">Silver Star</option>
-            <option value="gold star">Gold Star</option>
-          </select>
-          <label class="active">Rank</label>
-        </div>
-
-
-
-
-
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="rank" />
-            <label class="active">Rank</label>
-          </div>
-        </div>
--->
