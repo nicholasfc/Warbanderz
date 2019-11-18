@@ -1,31 +1,36 @@
 <template>
   <div class="removed-log">
-    <h3>Removed Log</h3>
-
-    <v-simple-table fixed-header>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">Name</th>
-            <th class="text-left">Rank</th>
-            <th class="text-left">Alt</th>
-            <th class="text-left">Points - (A,H,S)</th>
-            <th class="text-left">Reason</th>
-            <th class="text-left">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(member, index) in removeds" :key="index">
-            <td>{{member.name}}</td>
-            <td>{{member.rank}}</td>
-            <td>{{member.alt}}</td>
-            <td>{{member.total}} - ({{member.anti}}, {{member.host}}, {{member.scout}})</td>
-            <td>{{member.reason}}</td>
-            <td>{{member.time.toDate() | formatDate}}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Removed Players</h3>
+    <template>
+      <v-simple-table fixed-header>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">Name</th>
+              <th class="text-left">Rank</th>
+              <th class="text-left">Alt</th>
+              <th class="text-left">Points - (A,H,S)</th>
+              <th class="text-left">Reason</th>
+              <th class="text-left">Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(member, index) in removeds" :key="index">
+              <td>{{member.name}}</td>
+              <td>{{member.rank}}</td>
+              <td>{{member.alt}}</td>
+              <td>{{member.total}} - ({{member.anti}}, {{member.host}}, {{member.scout}})</td>
+              <td>{{member.reason}}</td>
+              <td>{{member.time.toDate() | formatDate}}</td>
+              <td>
+                <v-icon @click="deleteRow(index)">mdi-delete</v-icon>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </template>
   </div>
 </template>
 
@@ -86,5 +91,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+h3 {
+  text-decoration: underline !important;
+}
 </style>
