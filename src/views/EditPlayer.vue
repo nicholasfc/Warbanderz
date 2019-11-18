@@ -13,10 +13,10 @@
                 <v-text-field label="Scout Points" v-model.number="scout"></v-text-field>
                 <v-text-field label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field label="Host Points" v-model.number="host"></v-text-field>
-                <v-text-field label="Total Points" v-model.number="total"></v-text-field>
+                <v-text-field disabled label="Total Points" v-model.number="total"></v-text-field>
                 <v-text-field label="Comments" v-model="comments"></v-text-field>
                 <v-btn text small class="success mr-5" @click="updatePlayer()">Update Player</v-btn>
-                <v-btn text small to="/member" class="error">Return</v-btn>
+                <v-btn text small to="/member" class="error">Cancel</v-btn>
               </v-form>
             </v-card-text>
           </v-col>
@@ -96,6 +96,7 @@ export default {
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
+            const total = this.scout + this.anti + this.host;
             doc.ref
               .update({
                 name: this.name,
@@ -104,7 +105,7 @@ export default {
                 scout: this.scout,
                 anti: this.anti,
                 host: this.host,
-                total: this.total,
+                total: total,
                 comments: this.comments
               })
               .then(() => {
