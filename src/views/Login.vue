@@ -26,6 +26,9 @@
           </v-col>
         </v-row>
       </v-container>
+      <p align="center" justify="center">
+        <router-link to="/resetpw">Forgot Password?</router-link>
+      </p>
     </v-content>
 
     <!-- <div class="container">

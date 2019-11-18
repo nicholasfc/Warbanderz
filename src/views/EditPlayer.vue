@@ -15,7 +15,7 @@
                 <v-text-field label="Host Points" v-model.number="host"></v-text-field>
                 <v-text-field label="Total Points" v-model.number="total"></v-text-field>
                 <v-text-field label="Comments" v-model="comments"></v-text-field>
-                <v-btn text small class="success" @click="updatePlayer()">Update Player</v-btn>
+                <v-btn text small class="success mr-5" @click="updatePlayer()">Update Player</v-btn>
                 <v-btn text small to="/member" class="error">Return</v-btn>
               </v-form>
             </v-card-text>
@@ -45,7 +45,8 @@ export default {
         "2 Banana",
         "3 Banana",
         "Bronze Star",
-        "Silver Star"
+        "Silver Star",
+        "Gold Star"
       ]
     };
   },
@@ -107,10 +108,7 @@ export default {
                 comments: this.comments
               })
               .then(() => {
-                this.$router.push({
-                  name: "member",
-                  params: { name: this.name }
-                });
+                this.$router.push("/member");
               });
           });
         });

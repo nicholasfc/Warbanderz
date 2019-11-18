@@ -22,24 +22,25 @@
           <tbody>
             <tr v-for="(member, index) in members" :key="index">
               <td>
-                <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link>
+                {{member.name}}
+                <!-- <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link> -->
               </td>
               <td>{{member.rank}}</td>
               <td>{{member.alt}}</td>
               <td>
-                <v-icon @click="removeScout(index)">mdi-minus</v-icon>
+                <v-icon dense @click="removeScout(index)">mdi-minus</v-icon>
                 {{member.scout}}
-                <v-icon @click="addScout(index)">mdi-plus</v-icon>
+                <v-icon dense @click="addScout(index)">mdi-plus</v-icon>
               </td>
               <td>
-                <v-icon @click="removeAnti(index)">mdi-minus</v-icon>
+                <v-icon dense @click="removeAnti(index)">mdi-minus</v-icon>
                 {{member.anti}}
-                <v-icon @click="addAnti(index)">mdi-plus</v-icon>
+                <v-icon dense @click="addAnti(index)">mdi-plus</v-icon>
               </td>
               <td>
-                <v-icon @click="removeHost(index)">mdi-minus</v-icon>
+                <v-icon dense @click="removeHost(index)">mdi-minus</v-icon>
                 {{member.host}}
-                <v-icon @click="addHost(index)">mdi-plus</v-icon>
+                <v-icon dense @click="addHost(index)">mdi-plus</v-icon>
               </td>
               <td>{{member.total}}</td>
               <td>{{member.comments}}</td>
@@ -49,10 +50,10 @@
                     v-if="member.name"
                     :to="{path: '/', name: 'edit', params: {name: member.name}}"
                   >
-                    <v-icon>mdi-pencil</v-icon>
+                    <v-icon dense>mdi-pencil</v-icon>
                   </router-link>
                   <router-link :to="{ path:'/', name: 'delete', params: { name: member.name }}">
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon dense>mdi-delete</v-icon>
                   </router-link>
                 </td>
               </template>

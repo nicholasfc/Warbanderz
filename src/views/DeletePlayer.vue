@@ -15,7 +15,7 @@
                 <v-text-field disabled label="Host Points" v-model.number="host"></v-text-field>
                 <v-text-field disabled label="Total Points" v-model.number="total"></v-text-field>
                 <v-text-field label="Reason" v-model="reason"></v-text-field>
-                <v-btn text small class="error" @click="deletePlayer()">Delete Player</v-btn>
+                <v-btn text small class="error mr-5" @click="deletePlayer()">Delete Player</v-btn>
                 <v-btn text small to="/member" class="primary">Return</v-btn>
               </v-form>
             </v-card-text>
