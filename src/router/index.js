@@ -10,6 +10,7 @@ import Register from "../views/Register";
 import ResetPw from "../views/ResetPw";
 import PointLog from "../views/PointLog";
 import RemovedLog from "../views/RemovedLog";
+import DeletePlayer from "../views/DeletePlayer";
 import firebase from "firebase/app";
 
 Vue.use(VueRouter);
@@ -91,6 +92,14 @@ const routes = [
     path: "/edit/:name",
     name: "edit",
     component: EditPlayer,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/delete/:name",
+    name: "delete",
+    component: DeletePlayer,
     meta: {
       requiresAuth: true
     }
