@@ -1,77 +1,74 @@
 <template>
-  <div class="container">
+  <div class="removed-log">
     <h3>Removed Log</h3>
 
-    <div class="row">
-      <form @submit.prevent="onSubmit()" class="col s12">
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="name" required />
-            <label>Player Name</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="reason" />
-            <label>Reason</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="comments" />
-            <label>Comments</label>
-          </div>
-        </div>
-        <button type="submit" class="btn">Submit</button>
-      </form>
-    </div>
-    <ul>
-      <li v-for="(removed, index) in removeds" :key="index">
-        {{removed.name}} - {{removed.reason}} - {{removed.comments}} -
-        <i
-          class="fas fa-trash"
-          @click="deleteRow(index)"
-        ></i>
-      </li>
-    </ul>
+    <v-simple-table fixed-header>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+            <th class="text-left">Rank</th>
+            <th class="text-left">Alt</th>
+            <th class="text-left">Points - (A,H,S)</th>
+            <th class="text-left">Reason</th>
+            <th class="text-left">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(member, index) in removeds" :key="index">
+            <td>{{member.name}}</td>
+            <td>{{member.rank}}</td>
+            <td>{{member.alt}}</td>
+            <td>{{member.total}} - ({{member.anti}}, {{member.host}}, {{member.scout}})</td>
+            <td>{{member.reason}}</td>
+            <td>{{member.time.toDate() | formatDate}}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
   </div>
 </template>
 
 <script>
+import moment from "moment";
 import { db } from "../data/firebaseInit";
+import firebase from "firebase/app";
 export default {
   data() {
     return {
-      removeds: [],
-      name: "",
-      reason: "",
-      comments: ""
+      removeds: []
     };
   },
+  filters: {
+    formatDate: function(value) {
+      if (value) {
+        return moment(value).format("DD/MMM/YYYY");
+      }
+    }
+  },
   created() {
-    this.fetchDb();
+    db.collection("removedlog")
+      .orderBy("name")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = {
+            id: doc.id,
+            name: doc.data().name,
+            rank: doc.data().rank,
+            alt: doc.data().alt,
+            total: doc.data().total,
+            anti: doc.data().anti,
+            scout: doc.data().scout,
+            host: doc.data().host,
+            reason: doc.data().reason,
+            time: doc.data().time
+          };
+          this.removeds.push(data);
+        });
+      });
   },
   methods: {
-    fetchDb() {
-      const removeds = [];
-      db.collection("removedlog").onSnapshot(snap => {
-        snap.forEach(doc => {
-          let newRemoved = doc.data();
-          newRemoved.id = doc.id;
-          removeds.push(newRemoved);
-        });
-        this.removeds = removeds;
-      });
-    },
-    onSubmit() {
-      db.collection("removedlog")
-        .add({
-          name: this.name,
-          reason: this.reason,
-          comments: this.comments
-        })
-        .then(() => this.fetchDb());
-    },
     deleteRow(index) {
       if (confirm("Are you sure?")) {
         db.collection("removedlog")
