@@ -2,16 +2,16 @@
   <div class="removed-log">
     <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Removed Players</h3>
     <template>
-      <v-simple-table fixed-header>
+      <v-simple-table fixed-header height="400px">
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Rank</th>
-              <th class="text-left">Alt</th>
-              <th class="text-left">Points - (A,H,S)</th>
-              <th class="text-left">Reason</th>
-              <th class="text-left">Date</th>
+              <th class="text-left title">Name</th>
+              <th class="text-left title">Rank</th>
+              <th class="text-left title">Alt</th>
+              <th class="text-left title">Points - (A,H,S)</th>
+              <th class="text-left title">Reason</th>
+              <th class="text-left title">Date</th>
               <th></th>
             </tr>
           </thead>
