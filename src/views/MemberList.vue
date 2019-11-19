@@ -1,8 +1,12 @@
 <template>
   <div>
+    <v-snackbar v-model="snackbar">
+      <span>Player Added!</span>
+      <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
     <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Member List</h3>
     <template>
-      <v-simple-table fixed-header>
+      <v-simple-table fixed-header height="400px">
         <template v-slot:default>
           <thead>
             <tr>
@@ -61,6 +65,7 @@
           </tbody>
         </template>
       </v-simple-table>
+      <Popup @playerAdded="snackbar = true" />
     </template>
   </div>
 </template>
@@ -68,10 +73,13 @@
 <script>
 import { db, fv, tstp } from "../data/firebaseInit";
 import firebase from "firebase/app";
+import Popup from "../components/Popup";
 export default {
+  components: { Popup },
   data() {
     return {
       isAdmin: false,
+      snackbar: false,
       members: []
     };
   },
