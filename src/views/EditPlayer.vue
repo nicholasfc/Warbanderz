@@ -96,7 +96,7 @@ export default {
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            const total = this.scout + this.anti + this.host;
+            const total = this.scout + this.anti + this.host + this.total;
             doc.ref
               .update({
                 name: this.name,
