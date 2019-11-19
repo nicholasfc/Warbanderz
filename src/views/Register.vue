@@ -1,5 +1,37 @@
 <template>
-  <div>
+  <div class="register">
+    <v-content>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card>
+              <v-toolbar flat>
+                <v-toolbar-title>Register</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field v-model="email" label="E-mail" required></v-text-field>
+
+                  <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    type="password"
+                    v-model="password"
+                  />
+                  <v-btn text class="success" @click="register()">Login</v-btn>
+                </v-form>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+      <p align="center" justify="center">
+        <router-link to="/resetpw">Forgot Password?</router-link>
+      </p>
+    </v-content>
+  </div>
+  <!-- <div>
     <div class="container">
       <div class="row">
         <div class="col s12 m8 offset-m2">
@@ -25,7 +57,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -46,7 +78,7 @@ export default {
         .then(
           user => {
             alert(`Account Created`);
-            this.$router.go({ path: this.$router.path });
+            this.$router.push("/");
           },
           err => {
             alert(err.message);
