@@ -3,10 +3,10 @@
     <nav>
       <v-toolbar text dark dense>
         <v-toolbar-title class="d-none d-sm-flex hidden-xs-and-down">
-          <router-link to="/" class="text-uppercase link">Warbanderz</router-link>
+          <router-link to="/" class="text-uppercase link navBar">Warbanderz</router-link>
         </v-toolbar-title>
         <v-toolbar-title class="hidden-sm-and-up">
-          <router-link to="/" class="text-uppercase link">Wbz</router-link>
+          <router-link to="/" class="text-uppercase link navBar">Wbz</router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
 
@@ -92,4 +92,7 @@ export default {
 </script>
 
 <style scoped>
+.navBar {
+  text-decoration: none;
+}
 </style>
