@@ -1,11 +1,11 @@
 <template>
   <div class="navbar">
     <nav>
-      <v-toolbar text dark>
-        <v-toolbar-title class="hidden-md-and-down">
+      <v-toolbar text dark dense>
+        <v-toolbar-title class="d-none d-sm-flex hidden-xs-and-down">
           <router-link to="/" class="text-uppercase link">Warbanderz</router-link>
         </v-toolbar-title>
-        <v-toolbar-title class="hidden-md-and-up">
+        <v-toolbar-title class="hidden-sm-and-up">
           <router-link to="/" class="text-uppercase link">Wbz</router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
