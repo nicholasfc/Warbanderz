@@ -1,5 +1,5 @@
 <template>
-  <v-dialog max-width="600px" v-model="dialog">
+  <v-dialog max-width="600px" v-model="dialog" v-if="isAdmin">
     <template v-slot:activator="{ on }">
       <v-icon color="green" x-large bottom right v-on="on">mdi-plus-circle</v-icon>
     </template>
@@ -11,6 +11,9 @@
       <v-card-text>
         <v-form>
           <v-text-field required label="Player Name" v-model="name"></v-text-field>
+          <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
+          <v-text-field label="Alt Name" v-model="alt"></v-text-field>
+          <v-text-field label="Total Points" v-model.number="total"></v-text-field>
           <v-text-field label="Comments" v-model="comments"></v-text-field>
           <v-btn text class="success" @click="onSubmit()">Add Player</v-btn>
         </v-form>
@@ -21,25 +24,58 @@
 
 <script>
 import { db } from "../data/firebaseInit";
+import firebase from "firebase/app";
 export default {
   data() {
     return {
+      isAdmin: false,
       name: null,
       comments: "",
-      dialog: false
+      rank: null,
+      dialog: false,
+      alt: null,
+      total: null,
+      ranks: [
+        "Smiley",
+        "1 Banana",
+        "2 Banana",
+        "3 Banana",
+        "Bronze Star",
+        "Silver Star",
+        "Gold Star"
+      ]
     };
+  },
+  created() {
+    firebase
+      .auth()
+      .currentUser.getIdTokenResult()
+      .then(idTokenResult => {
+        if (idTokenResult.claims.admin) {
+          this.isAdmin = true;
+        }
+      });
+  },
+  submited: {
+    name: "",
+    comments: "",
+    dialog: "",
+    alt: "",
+    total: "",
+    rank: ""
   },
   methods: {
     onSubmit() {
       db.collection("members")
         .add({
           name: this.name,
-          rank: "Smiley",
-          alt: "",
+          // rank: "Smiley",
+          rank: this.rank,
+          alt: this.alt,
           scout: 0,
           anti: 0,
           host: 0,
-          total: 0,
+          total: this.total,
           comments: this.comments
         })
         .then(() => {
@@ -47,6 +83,12 @@ export default {
           this.$emit("playerAdded");
         })
         .catch(err => console.log(err));
+
+      this.name = "";
+      this.alt = "";
+      this.total = "";
+      this.rank = "";
+      this.comments = "";
     }
   }
 };
