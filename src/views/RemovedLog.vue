@@ -2,7 +2,7 @@
   <div class="removed-log">
     <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Removed Players</h3>
     <template>
-      <v-simple-table fixed-header height="400px">
+      <v-simple-table fixed-header height="80vh">
         <template v-slot:default>
           <thead>
             <tr>
@@ -24,7 +24,7 @@
               <td>{{member.reason}}</td>
               <td>{{member.time.toDate() | formatDate}}</td>
               <td>
-                <v-icon @click="deleteRow(index)">mdi-delete</v-icon>
+                <v-icon color="error" @click="deleteRow(index)">mdi-delete</v-icon>
               </td>
             </tr>
           </tbody>
@@ -94,5 +94,6 @@ export default {
 <style scoped>
 h3 {
   text-decoration: underline !important;
+  color: #37474f;
 }
 </style>
