@@ -104,14 +104,13 @@ export default {
   },
   methods: {
     fetchDb() {
-      const members = [];
       db.collection("members")
         .orderBy("name")
-        .onSnapshot(snap => {
-          snap.forEach(doc => {
-            let newPlayer = doc.data();
-            newPlayer.id = doc.id;
-            members.push(newPlayer);
+        .get()
+        .then(querySnapshot => {
+          const members = [];
+          querySnapshot.forEach(doc => {
+            members.push(doc.data());
           });
           this.members = members;
         });
