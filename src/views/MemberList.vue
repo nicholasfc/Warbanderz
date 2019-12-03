@@ -5,8 +5,8 @@
       <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Member List</h3>
-    <template>
-      <v-simple-table fixed-header height="400px">
+    <template v-if="isMember || isAdmin">
+      <v-simple-table fixed-header height="70vh">
         <template v-slot:default>
           <thead>
             <tr>
@@ -32,19 +32,19 @@
               <td>{{member.rank}}</td>
               <td>{{member.alt}}</td>
               <td>
-                <v-icon dense @click="removeScout(index)">mdi-minus</v-icon>
+                <v-icon dense color="success" @click="addScout(index)">mdi-plus</v-icon>
                 {{member.scout}}
-                <v-icon dense @click="addScout(index)">mdi-plus</v-icon>
+                <v-icon dense color="error" @click="removeScout(index)">mdi-minus</v-icon>
               </td>
               <td>
-                <v-icon dense @click="removeAnti(index)">mdi-minus</v-icon>
+                <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
                 {{member.anti}}
-                <v-icon dense @click="addAnti(index)">mdi-plus</v-icon>
+                <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
               </td>
               <td>
-                <v-icon dense @click="removeHost(index)">mdi-minus</v-icon>
+                <v-icon dense color="success" @click="addHost(index)">mdi-plus</v-icon>
                 {{member.host}}
-                <v-icon dense @click="addHost(index)">mdi-plus</v-icon>
+                <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
               </td>
               <td>{{member.total}}</td>
               <td>{{member.comments}}</td>
@@ -54,10 +54,10 @@
                     v-if="member.name"
                     :to="{path: '/', name: 'edit', params: {name: member.name}}"
                   >
-                    <v-icon dense>mdi-pencil</v-icon>
+                    <v-icon color="light-blue darken-4" dense>mdi-pencil</v-icon>
                   </router-link>
                   <router-link :to="{ path:'/', name: 'delete', params: { name: member.name }}">
-                    <v-icon dense>mdi-delete</v-icon>
+                    <v-icon dense color="error">mdi-delete</v-icon>
                   </router-link>
                 </td>
               </template>
@@ -67,6 +67,11 @@
       </v-simple-table>
       <Popup @playerAdded="snackbar = true" />
     </template>
+    <v-content v-if="!isAdmin && !isMember">
+      <p
+        class="font-weight-medium text-center pa-3 ma-3 display-1"
+      >Please Contact a Gold Star to get access!</p>
+    </v-content>
   </div>
 </template>
 
@@ -79,6 +84,7 @@ export default {
   data() {
     return {
       isAdmin: false,
+      isMember: false,
       snackbar: false,
       members: []
     };
@@ -90,6 +96,8 @@ export default {
       .then(idTokenResult => {
         if (idTokenResult.claims.admin) {
           this.isAdmin = true;
+        } else if (idTokenResult.claims.member) {
+          this.isMember = true;
         }
       });
     this.fetchDb();
@@ -248,5 +256,6 @@ export default {
 <style scoped>
 h3 {
   text-decoration: underline;
+  color: #37474f;
 }
 </style>

@@ -7,10 +7,25 @@ exports.addAdminRole = functions.https.onCall(async (data, context) => {
   try {
     const user = await admin.auth().getUserByEmail(data.email);
     await admin.auth().setCustomUserClaims(user.uid, {
-      admin: true
+      admin: true,
+      member: true
     });
     return {
       message: `Success! ${data.email} has been made admin`
+    };
+  } catch (err) {
+    return err;
+  }
+});
+
+exports.addMemberRole = functions.https.onCall(async (data, context) => {
+  try {
+    const user = await admin.auth().getUserByEmail(data.email);
+    await admin.auth().setCustomUserClaims(user.uid, {
+      member: true
+    });
+    return {
+      message: `Success! ${data.email} has been made member`
     };
   } catch (err) {
     return err;

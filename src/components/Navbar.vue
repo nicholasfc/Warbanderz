@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <nav>
-      <v-toolbar text dark dense>
+      <v-toolbar flat text dark dense color="blue-grey darken-3">
         <v-toolbar-title class="d-none d-sm-flex hidden-xs-and-down">
           <router-link to="/" class="text-uppercase link navBar">Warbanderz</router-link>
         </v-toolbar-title>
@@ -12,13 +12,13 @@
 
         <!-- dropdown menu -->
         <v-toolbar-items>
-          <v-menu offset-y v-if="isLoggedIn">
+          <v-menu offset-y v-if="isLoggedIn && isMember || isAdmin">
             <template v-slot:activator="{ on }">
               <v-btn text dark v-on="on" class>
                 <v-icon left>mdi-menu-down</v-icon>Menu
               </v-btn>
             </template>
-            <v-list>
+            <v-list dark color="blue-grey darken-3">
               <v-list-item link href="/member" v-if="isLoggedIn">
                 <v-list-item-content>
                   <v-list-item-title>Member List</v-list-item-title>
@@ -45,7 +45,7 @@
 
         <v-divider vertical v-if="isLoggedIn"></v-divider>
         <v-toolbar-items>
-          <v-btn text class="primary" v-if="isLoggedIn" @click="logout()">
+          <v-btn text class="red darken-1" v-if="isLoggedIn" @click="logout()">
             <span>Sign Out</span>
             <v-icon right>mdi-logout</v-icon>
           </v-btn>
@@ -62,7 +62,8 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      isAdmin: false
+      isAdmin: false,
+      isMember: false
     };
   },
   created() {
@@ -72,6 +73,8 @@ export default {
       .then(idTokenResult => {
         if (idTokenResult.claims.admin) {
           this.isAdmin = true;
+        } else if (idTokenResult.claims.member) {
+          this.isMember = true;
         }
       });
     if (firebase.auth().currentUser) {
