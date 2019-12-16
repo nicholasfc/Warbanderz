@@ -25,7 +25,13 @@
           </thead>
           <tbody>
             <tr v-for="(member, index) in members" :key="index">
-              <td>
+              <td
+                :class="{
+    'gold-star': member.rank === 'Gold Star',
+    'silver-star': member.rank === 'Silver Star',
+    'bronze-star': member.rank === 'Bronze Star',
+  }"
+              >
                 {{member.name}}
                 <!-- <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link> -->
               </td>
@@ -46,7 +52,13 @@
                 {{member.host}}
                 <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
               </td>
-              <td>{{member.total}}</td>
+              <td
+                :class="{
+                 'change-smiley': member.total >= 10 && member.rank === 'Smiley',
+                 'change-1banana': member.total >= 50 && member.rank === '1 Banana',
+                 'change-2banana': member.total >= 100 && member.rank === '2 Banana'
+                }"
+              >{{member.total}}</td>
               <td>{{member.comments}}</td>
               <template v-if="isAdmin">
                 <td>
@@ -106,11 +118,12 @@ export default {
     fetchDb() {
       db.collection("members")
         .orderBy("name")
-        .get()
-        .then(querySnapshot => {
+        .onSnapshot(snap => {
           const members = [];
-          querySnapshot.forEach(doc => {
-            members.push(doc.data());
+          snap.forEach(doc => {
+            let newPlayer = doc.data();
+            newPlayer.id = doc.id;
+            members.push(newPlayer);
           });
           this.members = members;
         });
@@ -256,5 +269,23 @@ export default {
 h3 {
   text-decoration: underline;
   color: #37474f;
+}
+
+.gold-star {
+  background-color: #ffee58;
+}
+
+.silver-star {
+  background-color: #bdbdbd;
+}
+
+.bronze-star {
+  background-color: #cd7f32;
+}
+
+.change-smiley,
+.change-1banana,
+.change-2banana {
+  background-color: #00c853;
 }
 </style>
