@@ -6,78 +6,85 @@
     </v-snackbar>
     <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Member List</h3>
     <template v-if="isMember || isAdmin">
-      <v-simple-table fixed-header height="70vh">
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left title">Name</th>
-              <th class="text-left title">Rank</th>
-              <th class="text-left title">Alt</th>
-              <th class="text-left title">Scout</th>
-              <th class="text-left title">Anti</th>
-              <th class="text-left title">Host</th>
-              <th class="text-left title">Total</th>
-              <th class="text-left title">Comments</th>
-              <template v-if="isAdmin">
-                <th class="text-left"></th>
-              </template>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(member, index) in members" :key="index">
-              <td
-                :class="{
+      <p
+        v-for="log in logs"
+        :key="log.id"
+        class="body-2 text-right"
+      >Last Point given @ {{log.time.toDate() | formatDate}}</p>
+      <p>
+        <v-simple-table fixed-header height="70vh">
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left title">Name</th>
+                <th class="text-left title">Rank</th>
+                <th class="text-left title">Alt</th>
+                <th class="text-left title">Scout</th>
+                <th class="text-left title">Anti</th>
+                <th class="text-left title">Host</th>
+                <th class="text-left title">Total</th>
+                <th class="text-left title">Comments</th>
+                <template v-if="isAdmin">
+                  <th class="text-left"></th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(member, index) in members" :key="index">
+                <td
+                  :class="{
     'gold-star': member.rank === 'Gold Star',
     'silver-star': member.rank === 'Silver Star',
     'bronze-star': member.rank === 'Bronze Star',
   }"
-              >
-                {{member.name}}
-                <!-- <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link> -->
-              </td>
-              <td>{{member.rank}}</td>
-              <td>{{member.alt}}</td>
-              <td>
-                <v-icon dense color="success" @click="addScout(index)">mdi-plus</v-icon>
-                {{member.scout}}
-                <v-icon dense color="error" @click="removeScout(index)">mdi-minus</v-icon>
-              </td>
-              <td>
-                <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
-                {{member.anti}}
-                <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
-              </td>
-              <td>
-                <v-icon dense color="success" @click="addHost(index)">mdi-plus</v-icon>
-                {{member.host}}
-                <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
-              </td>
-              <td
-                :class="{
+                >
+                  {{member.name}}
+                  <!-- <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link> -->
+                </td>
+                <td>{{member.rank}}</td>
+                <td>{{member.alt}}</td>
+                <td>
+                  <v-icon dense color="success" @click="addScout(index)">mdi-plus</v-icon>
+                  {{member.scout}}
+                  <v-icon dense color="error" @click="removeScout(index)">mdi-minus</v-icon>
+                </td>
+                <td>
+                  <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
+                  {{member.anti}}
+                  <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
+                </td>
+                <td>
+                  <v-icon dense color="success" @click="addHost(index)">mdi-plus</v-icon>
+                  {{member.host}}
+                  <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
+                </td>
+                <td
+                  :class="{
                  'change-smiley': member.total >= 10 && member.rank === 'Smiley',
                  'change-1banana': member.total >= 50 && member.rank === '1 Banana',
                  'change-2banana': member.total >= 100 && member.rank === '2 Banana'
                 }"
-              >{{member.total}}</td>
-              <td>{{member.comments}}</td>
-              <template v-if="isAdmin">
-                <td>
-                  <router-link
-                    v-if="member.name"
-                    :to="{path: '/', name: 'edit', params: {name: member.name}}"
-                  >
-                    <v-icon color="light-blue darken-4" dense>mdi-pencil</v-icon>
-                  </router-link>
-                  <router-link :to="{ path:'/', name: 'delete', params: { name: member.name }}">
-                    <v-icon dense color="error">mdi-delete</v-icon>
-                  </router-link>
-                </td>
-              </template>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-      <Popup @playerAdded="snackbar = true" />
+                >{{member.total}}</td>
+                <td>{{member.comments}}</td>
+                <template v-if="isAdmin">
+                  <td>
+                    <router-link
+                      v-if="member.name"
+                      :to="{path: '/', name: 'edit', params: {name: member.name}}"
+                    >
+                      <v-icon color="light-blue darken-4" dense>mdi-pencil</v-icon>
+                    </router-link>
+                    <router-link :to="{ path:'/', name: 'delete', params: { name: member.name }}">
+                      <v-icon dense color="error">mdi-delete</v-icon>
+                    </router-link>
+                  </td>
+                </template>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+        <Popup @playerAdded="snackbar = true" />
+      </p>
     </template>
     <v-content v-if="!isAdmin && !isMember">
       <p
@@ -91,6 +98,7 @@
 import { db, fv, tstp } from "../data/firebaseInit";
 import firebase from "firebase/app";
 import Popup from "../components/Popup";
+import moment from "moment";
 export default {
   components: { Popup },
   data() {
@@ -98,8 +106,16 @@ export default {
       isAdmin: false,
       isMember: false,
       snackbar: false,
-      members: []
+      members: [],
+      logs: []
     };
+  },
+  filters: {
+    formatDate: function(value) {
+      if (value) {
+        return moment(value).format("DD/MMM/YYYY HH:mm");
+      }
+    }
   },
   created() {
     firebase
@@ -126,6 +142,18 @@ export default {
             members.push(newPlayer);
           });
           this.members = members;
+        });
+      db.collection("pointLog")
+        .orderBy("time", "desc")
+        .limit(1)
+        .onSnapshot(snap => {
+          const logs = [];
+          snap.forEach(doc => {
+            let newLog = doc.data();
+            newLog.id = doc.id;
+            logs.push(newLog);
+          });
+          this.logs = logs;
         });
     },
     addHost(index) {
