@@ -10,6 +10,7 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
+                  <v-text-field v-model="name" label="RSN" required></v-text-field>
                   <v-text-field v-model="email" label="E-mail" required></v-text-field>
 
                   <v-text-field
@@ -31,43 +32,18 @@
       </p>
     </v-content>
   </div>
-  <!-- <div>
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m8 offset-m2">
-          <div class="login card-panel gray lighten-4 black-text center">
-            <h3>Register</h3>
-            <form action="index.html">
-              <div class="input-field">
-                <i class="material-icons prefix">email</i>
-                <input type="email" id="email" v-model="email" />
-                <label for="email">Email Address</label>
-              </div>
-              <div class="input-field">
-                <i class="material-icons prefix">lock</i>
-                <input type="password" id="password" v-model="password" />
-                <label for="password">Password</label>
-              </div>
-              <button
-                @click.prevent="register()"
-                class="btn btn-large btn-extended grey lighten-4 black-text"
-              >Register</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>-->
 </template>
 
 <script>
 import firebase from "firebase/app";
+import { db } from "../data/firebaseInit";
 export default {
   name: "register",
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      name: ""
     };
   },
   methods: {
@@ -84,6 +60,13 @@ export default {
             alert(err.message);
           }
         );
+      db.collection("users")
+        .add({
+          name: this.name,
+          email: this.email,
+          claims: null
+        })
+        .catch(err => console.log(err));
     }
   }
 };
