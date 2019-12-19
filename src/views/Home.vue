@@ -14,26 +14,42 @@
       <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="4">
           <v-content v-if="isAdmin">
-            <v-tabs vertical>
-              <v-tab>Admin</v-tab>
-              <v-tab>Member</v-tab>
-              <v-tab-item>
-                <v-card-text>
-                  <v-form>
-                    <v-text-field required label="Enter email to give admin role" v-model="email"></v-text-field>
-                    <v-btn text class="success" @click="addAdmin()">Add Admin</v-btn>
-                  </v-form>
-                </v-card-text>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card-text>
-                  <v-form>
-                    <v-text-field required label="Enter email to give member role" v-model="email"></v-text-field>
-                    <v-btn text class="success" @click="addMember()">Add Member</v-btn>
-                  </v-form>
-                </v-card-text>
-              </v-tab-item>
-            </v-tabs>
+            <template>
+              <v-expansion-panels accordion>
+                <v-expansion-panel>
+                  <v-expansion-panel-header>Add Admin</v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-form>
+                      <v-text-field required label="Enter email to give admin role" v-model="email"></v-text-field>
+                      <v-btn text class="success" @click="addAdmin()">Add Admin</v-btn>
+                    </v-form>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                  <v-expansion-panel-header>Add Member</v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-form>
+                      <v-text-field
+                        required
+                        label="Enter email to give member role"
+                        v-model="email"
+                      ></v-text-field>
+                      <v-btn text class="success" @click="addMember()">Add Member</v-btn>
+                    </v-form>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+                <!-- <v-expansion-panel>
+                  <v-expansion-panel-header>Members</v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <p v-for="user in users" :key="user.id" class="body-2">
+                      <span class="font-weight-bold">{{user.name}}</span> -
+                      <span class="font-weight-bold">{{user.email}}</span> -
+                      <span class="font-weight-bold">{{user.claims}}</span>
+                    </p>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>-->
+              </v-expansion-panels>
+            </template>
           </v-content>
         </v-col>
       </v-row>
@@ -58,6 +74,7 @@ export default {
       isMember: false,
       snackbar: false,
       snackbar2: false
+      // users: []
     };
   },
   created() {
@@ -71,6 +88,20 @@ export default {
           this.isMember = true;
         }
       });
+    // db.collection("users")
+    //   .orderBy("name", "desc")
+    //   .get()
+    //   .then(querySnapshot => {
+    //     querySnapshot.forEach(doc => {
+    //       const data = {
+    //         id: doc.id,
+    //         name: doc.data().name,
+    //         email: doc.data().email,
+    //         claims: doc.data().claims
+    //       };
+    //       this.users.push(data);
+    //     });
+    //   });
   },
   methods: {
     addAdmin() {
@@ -79,6 +110,16 @@ export default {
         console.log(result);
         this.snackbar = true;
       });
+      db.collection("users")
+        .where("email", "==", this.email)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              claims: "Admin/Member"
+            });
+          });
+        });
     },
     addMember() {
       const addMemberRole = fc.httpsCallable("addMemberRole");
@@ -86,6 +127,16 @@ export default {
         console.log(result);
         this.snackbar2 = true;
       });
+      db.collection("users")
+        .where("email", "==", this.email)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              claims: "Member"
+            });
+          });
+        });
     }
   }
 };
