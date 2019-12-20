@@ -36,6 +36,7 @@ export default {
       comments: "",
       alt: null,
       total: null,
+      rank: null,
       ranks: [
         "Smiley",
         "1 Banana",

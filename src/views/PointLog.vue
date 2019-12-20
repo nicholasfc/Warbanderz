@@ -32,7 +32,8 @@ export default {
   data() {
     return {
       logs: [],
-      isMember: false
+      isMember: false,
+      isAdmin: false
     };
   },
   filters: {
