@@ -13,7 +13,10 @@
 
         <!-- NORMAL MENU -->
 
-        <v-toolbar-items class="d-sm-none d-md-flex hidden-sm-and-down">
+        <v-toolbar-items
+          class="d-sm-none d-md-flex hidden-sm-and-down"
+          v-if="isLoggedIn && isMember || isAdmin"
+        >
           <v-btn text to="/member" v-if="isLoggedIn">Member List</v-btn>
           <v-btn text to="/add" v-if="isLoggedIn && isAdmin">Add Member</v-btn>
           <v-btn text to="/log" v-if="isLoggedIn">Point Log</v-btn>
