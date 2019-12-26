@@ -38,7 +38,6 @@
 import firebase from "firebase/app";
 import { db } from "../data/firebaseInit";
 export default {
-  name: "register",
   data() {
     return {
       email: "",
@@ -52,14 +51,19 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(
-          user => {
-            alert(`Account Created`);
-            this.$router.push("/");
+          result => {
+            return result.user.updateProfile({
+              displayName: this.name
+            });
+            // this.$router.push("/");
           },
           err => {
             alert(err.message);
           }
-        );
+        )
+        .then(user => {
+          this.$router.push("/");
+        });
       db.collection("users")
         .add({
           name: this.name,

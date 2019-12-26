@@ -13,6 +13,19 @@
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="4">
+          <!-- QUICK LINKS FOR MEMBERS-->
+          <v-content v-if="isMember && !isAdmin">
+            <v-btn
+              to="/member"
+              color="blue-grey darken-3"
+              class="mr-12 mt-12"
+              dark
+              x-large
+            >Member List</v-btn>
+            <v-btn to="/log" color="blue-grey darken-3" class="mt-12" dark x-large>Point Log</v-btn>
+          </v-content>
+
+          <!-- ADMIN PANEL FOR ROLES-->
           <v-content v-if="isAdmin">
             <template>
               <v-expansion-panels accordion>
@@ -48,12 +61,23 @@
                     </p>
                   </v-expansion-panel-content>
                 </v-expansion-panel>-->
+                <v-expansion-panel>
+                  <v-expansion-panel-header>Add RSN</v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-form>
+                      <v-text-field required label="Enter RSN to update info" v-model="rsn"></v-text-field>
+                      <v-btn text class="success" @click="addRsn()">Add RSN</v-btn>
+                    </v-form>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
               </v-expansion-panels>
             </template>
           </v-content>
         </v-col>
       </v-row>
     </v-container>
+
+    <!-- WARNING IF NO MEMBER ROLE -->
     <v-content v-if="!isAdmin && !isMember">
       <p
         class="font-weight-medium text-center pa-3 ma-3 display-1"
@@ -73,7 +97,8 @@ export default {
       isAdmin: false,
       isMember: false,
       snackbar: false,
-      snackbar2: false
+      snackbar2: false,
+      rsn: null
       // users: []
     };
   },
@@ -137,6 +162,15 @@ export default {
             });
           });
         });
+    },
+    addRsn() {
+      var user = firebase.auth().currentUser;
+      user
+        .updateProfile({
+          displayName: this.rsn
+        })
+        .then(() => console.log(user.displayName))
+        .catch(err => console.log(err));
     }
   }
 };

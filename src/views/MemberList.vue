@@ -20,8 +20,8 @@
                 <th class="text-left title">Rank</th>
                 <th class="text-left title">Alt</th>
                 <th class="text-left title">Scout</th>
-                <th class="text-left title">Anti</th>
                 <th class="text-left title">Host</th>
+                <th class="text-left title">Anti</th>
                 <th class="text-left title">Total</th>
                 <th class="text-left title">Comments</th>
                 <template v-if="isAdmin">
@@ -49,14 +49,14 @@
                   <v-icon dense color="error" @click="removeScout(index)">mdi-minus</v-icon>
                 </td>
                 <td>
-                  <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
-                  {{member.anti}}
-                  <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
-                </td>
-                <td>
                   <v-icon dense color="success" @click="addHost(index)">mdi-plus</v-icon>
                   {{member.host}}
                   <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
+                </td>
+                <td>
+                  <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
+                  {{member.anti}}
+                  <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
                 </td>
                 <td
                   :class="{
@@ -107,7 +107,8 @@ export default {
       isMember: false,
       snackbar: false,
       members: [],
-      logs: []
+      logs: [],
+      user: null
     };
   },
   filters: {
@@ -129,6 +130,7 @@ export default {
         }
       });
     this.fetchDb();
+    var user = firebase.auth().currentUser.displayName;
   },
   methods: {
     fetchDb() {
@@ -142,6 +144,7 @@ export default {
             members.push(newPlayer);
           });
           this.members = members;
+          this.user = firebase.auth().currentUser.displayName;
         });
       db.collection("pointLog")
         .orderBy("time", "desc")
@@ -173,7 +176,8 @@ export default {
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
         pointField: "host",
-        addRemove: "added"
+        addRemove: "added",
+        byWho: this.user
       });
     },
     addScout(index) {
@@ -193,7 +197,8 @@ export default {
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
         pointField: "scout",
-        addRemove: "added"
+        addRemove: "added",
+        byWho: this.user
       });
     },
     addAnti(index) {
@@ -213,7 +218,8 @@ export default {
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
         pointField: "anti",
-        addRemove: "added"
+        addRemove: "added",
+        byWho: this.user
       });
     },
     removeHost(index) {
@@ -233,7 +239,8 @@ export default {
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
         pointField: "host",
-        addRemove: "removed"
+        addRemove: "removed",
+        byWho: this.user
       });
     },
     removeAnti(index) {
@@ -252,8 +259,9 @@ export default {
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
-        pointField: "host",
-        addRemove: "removed"
+        pointField: "anti",
+        addRemove: "removed",
+        byWho: this.user
       });
     },
     removeScout(index) {
@@ -272,8 +280,9 @@ export default {
       db.collection("pointLog").add({
         name: this.members[index].name,
         time: tstp.fromDate(new Date()),
-        pointField: "host",
-        addRemove: "removed"
+        pointField: "scout",
+        addRemove: "removed",
+        byWho: this.user
       });
     },
     deletePlayer(index) {
