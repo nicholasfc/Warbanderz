@@ -14,6 +14,7 @@
           <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
           <v-text-field label="Alt Name" v-model="alt"></v-text-field>
           <v-text-field label="Total Points" v-model.number="total"></v-text-field>
+          <v-text-field label="Vouch" v-model="vouch"></v-text-field>
           <v-text-field label="Comments" v-model="comments"></v-text-field>
           <v-btn text class="success" @click="onSubmit()">Add Player</v-btn>
         </v-form>
@@ -23,7 +24,7 @@
 </template>
 
 <script>
-import { db } from "../data/firebaseInit";
+import { db, tstp } from "../data/firebaseInit";
 import firebase from "firebase/app";
 export default {
   data() {
@@ -35,6 +36,7 @@ export default {
       dialog: false,
       alt: null,
       total: null,
+      vouch: null,
       ranks: [
         "Smiley",
         "1 Banana",
@@ -62,6 +64,7 @@ export default {
     dialog: "",
     alt: "",
     total: "",
+    vouch: "",
     rank: ""
   },
   methods: {
@@ -76,6 +79,8 @@ export default {
           anti: 0,
           host: 0,
           total: this.total,
+          vouch: this.vouch,
+          // dateAdded: tstp.fromDate(new Date()),
           comments: this.comments
         })
         .then(() => {
@@ -88,6 +93,7 @@ export default {
       this.alt = "";
       this.total = "";
       this.rank = "";
+      this.vouch = "";
       this.comments = "";
     }
   }

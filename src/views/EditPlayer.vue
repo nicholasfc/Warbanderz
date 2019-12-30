@@ -14,7 +14,8 @@
                 <v-text-field label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field label="Host Points" v-model.number="host"></v-text-field>
                 <v-text-field label="Total Points" v-model.number="total"></v-text-field>
-                <v-text-field label="Comments" v-model="comments"></v-text-field>
+                <v-text-field label="Vouch" v-model="vouch"></v-text-field>
+                <v-textarea label="Comments" v-model="comments"></v-textarea>
                 <v-btn text small class="success mr-5" @click="updatePlayer()">Update Player</v-btn>
                 <v-btn text small to="/member" class="error">Cancel</v-btn>
               </v-form>
@@ -27,7 +28,8 @@
 </template>
 
 <script>
-import { db } from "../data/firebaseInit";
+import { db, tstp } from "../data/firebaseInit";
+import Datepicker from "vuejs-datepicker";
 export default {
   data() {
     return {
@@ -38,6 +40,8 @@ export default {
       anti: null,
       host: null,
       total: null,
+      vouch: null,
+      // dateAdded: null,
       comments: "",
       ranks: [
         "Smiley",
@@ -64,6 +68,7 @@ export default {
             vm.anti = doc.data().anti;
             vm.host = doc.data().host;
             vm.total = doc.data().total;
+            vm.vouch = doc.data().vouch;
             vm.comments = doc.data().comments;
           });
         });
@@ -86,6 +91,7 @@ export default {
             this.anti = doc.data().anti;
             this.host = doc.data().host;
             this.total = doc.data().total;
+            this.vouch = doc.data().vouch;
             this.comments = doc.data().comments;
           });
         });
@@ -111,12 +117,15 @@ export default {
                 anti: this.anti,
                 host: this.host,
                 total: this.total,
+                vouch: this.vouch,
+                // dateAdded: this.dateAdded,
                 comments: this.comments
               })
               .then(() => {
                 this.$router.push("/member");
               });
           });
+          // console.log(this.dateAdded);
         });
     }
   }

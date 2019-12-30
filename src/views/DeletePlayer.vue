@@ -14,6 +14,7 @@
                 <v-text-field disabled label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field disabled label="Host Points" v-model.number="host"></v-text-field>
                 <v-text-field disabled label="Total Points" v-model.number="total"></v-text-field>
+                <v-text-field disabled label="Vouch" v-model.number="vouch"></v-text-field>
                 <v-text-field label="Reason" v-model="reason"></v-text-field>
                 <v-btn text small class="error mr-5" @click="deletePlayer()">Delete Player</v-btn>
                 <v-btn text small to="/member" class="primary">Return</v-btn>
@@ -65,6 +66,7 @@ export default {
             vm.anti = doc.data().anti;
             vm.host = doc.data().host;
             vm.total = doc.data().total;
+            vm.vouch = doc.data().vouch;
             vm.comments = doc.data().comments;
           });
         });
@@ -87,6 +89,7 @@ export default {
             this.anti = doc.data().anti;
             this.host = doc.data().host;
             this.total = doc.data().total;
+            this.vouch = doc.data().vouch;
             this.comments = doc.data().comments;
           });
         });
@@ -100,6 +103,7 @@ export default {
         anti: this.anti,
         host: this.host,
         total: this.total,
+        vouch: this.vouch,
         reason: this.reason,
         time: tstp.fromDate(new Date())
       });

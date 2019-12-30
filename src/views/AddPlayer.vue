@@ -14,6 +14,7 @@
                   <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
                   <v-text-field label="Alt Name" v-model="alt"></v-text-field>
                   <v-text-field label="Total Points" v-model.number="total"></v-text-field>
+                  <v-text-field label="Vouch" v-model="vouch"></v-text-field>
                   <v-text-field label="Comments" v-model="comments"></v-text-field>
                   <v-btn text class="success" @click="onSubmit()">Add Player</v-btn>
                 </v-form>
@@ -37,6 +38,7 @@ export default {
       alt: null,
       total: null,
       rank: null,
+      vouch: null,
       ranks: [
         "Smiley",
         "1 Banana",
@@ -53,13 +55,13 @@ export default {
       db.collection("members")
         .add({
           name: this.name,
-          // rank: "Smiley",
           rank: this.rank,
           alt: this.alt,
           scout: 0,
           anti: 0,
           host: 0,
           total: this.total,
+          vouch: this.vouch,
           comments: this.comments
         })
         .then(docRef => {

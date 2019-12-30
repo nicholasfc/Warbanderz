@@ -12,7 +12,7 @@
         class="body-2 text-right"
       >Last Point given @ {{log.time.toDate() | formatDate}}</p>
       <p>
-        <v-simple-table fixed-header height="70vh">
+        <v-simple-table fixed-header dark dense height="65vh">
           <template v-slot:default>
             <thead>
               <tr>
@@ -23,6 +23,8 @@
                 <th class="text-left title">Host</th>
                 <th class="text-left title">Anti</th>
                 <th class="text-left title">Total</th>
+                <th class="text-left title">Vouch</th>
+                <!-- <th class="text-left title">Added</th> -->
                 <th class="text-left title">Comments</th>
                 <template v-if="isAdmin">
                   <th class="text-left"></th>
@@ -65,6 +67,8 @@
                  'change-2banana': member.total >= 100 && member.rank === '2 Banana'
                 }"
                 >{{member.total}}</td>
+                <td>{{member.vouch}}</td>
+                <!-- <td>{{member.dateAdded}}</td> -->
                 <td>{{member.comments}}</td>
                 <template v-if="isAdmin">
                   <td>
@@ -305,19 +309,22 @@ export default {
 <style scoped>
 h3 {
   text-decoration: underline;
-  color: #37474f;
+  color: #eceff1;
 }
 
 .gold-star {
-  background-color: #ffee58;
+  background-color: #fbc02d;
+  /* background-color: #ffee58; */
 }
 
 .silver-star {
-  background-color: #bdbdbd;
+  /* background-color: #bdbdbd; */
+  background-color: #616161;
 }
 
 .bronze-star {
-  background-color: #cd7f32;
+  background-color: #f57c00;
+  /* background-color: #cd7f32; */
 }
 
 .change-smiley,

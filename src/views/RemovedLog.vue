@@ -2,7 +2,7 @@
   <div class="removed-log">
     <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Removed Players</h3>
     <template>
-      <v-simple-table fixed-header height="80vh">
+      <v-simple-table fixed-header dark dense height="80vh">
         <template v-slot:default>
           <thead>
             <tr>
@@ -10,6 +10,7 @@
               <th class="text-left title">Rank</th>
               <th class="text-left title">Alt</th>
               <th class="text-left title">Points - (A,H,S)</th>
+              <th class="text-left title">Vouch</th>
               <th class="text-left title">Reason</th>
               <th class="text-left title">Date</th>
               <th></th>
@@ -21,6 +22,7 @@
               <td>{{member.rank}}</td>
               <td>{{member.alt}}</td>
               <td>{{member.total}} - ({{member.anti}}, {{member.host}}, {{member.scout}})</td>
+              <td>{{member.vouch}}</td>
               <td>{{member.reason}}</td>
               <td>{{member.time.toDate() | formatDate}}</td>
               <td>
@@ -94,6 +96,6 @@ export default {
 <style scoped>
 h3 {
   text-decoration: underline !important;
-  color: #37474f;
+  color: #eceff1;
 }
 </style>
