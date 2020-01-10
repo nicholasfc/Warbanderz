@@ -11,8 +11,8 @@
                 <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
                 <v-text-field label="Alt Name" v-model="alt"></v-text-field>
                 <v-text-field label="Scout Points" v-model.number="scout"></v-text-field>
-                <v-text-field label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field label="Host Points" v-model.number="host"></v-text-field>
+                <v-text-field label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field label="Total Points" v-model.number="total"></v-text-field>
                 <v-text-field label="Vouch" v-model="vouch"></v-text-field>
                 <v-textarea label="Comments" v-model="comments"></v-textarea>
@@ -29,7 +29,6 @@
 
 <script>
 import { db, tstp } from "../data/firebaseInit";
-import Datepicker from "vuejs-datepicker";
 export default {
   data() {
     return {
@@ -45,12 +44,12 @@ export default {
       comments: "",
       ranks: [
         "Smiley",
-        "1 Banana",
-        "2 Banana",
-        "3 Banana",
-        "Bronze Star",
-        "Silver Star",
-        "Gold Star"
+        "Recruit",
+        "Corporal",
+        "Sergeant",
+        "Bronze",
+        "Silver",
+        "Gold"
       ]
     };
   },

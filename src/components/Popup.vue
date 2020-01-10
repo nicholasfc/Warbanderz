@@ -39,12 +39,12 @@ export default {
       vouch: null,
       ranks: [
         "Smiley",
-        "1 Banana",
-        "2 Banana",
-        "3 Banana",
-        "Bronze Star",
-        "Silver Star",
-        "Gold Star"
+        "Recruit",
+        "Corporal",
+        "Sergeant",
+        "Bronze",
+        "Silver",
+        "Gold"
       ]
     };
   },
