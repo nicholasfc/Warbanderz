@@ -7,12 +7,23 @@ import "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "./data/firebaseInit";
-import vuetify from './plugins/vuetify';
+import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
 let app;
+// firebase.auth().onAuthStateChanged(user => {
+//   if (!app) {
+//     app = new Vue({
+//       router,
+//       vuetify,
+//       render: h => h(App)
+//     }).$mount("#app");
+//   }
+// });
+
 firebase.auth().onAuthStateChanged(user => {
+  // console.log("user", user);
   if (!app) {
     app = new Vue({
       router,
