@@ -8,6 +8,10 @@
       <span>{{this.email}} has member role!</span>
       <v-btn color="blue" text @click="snackbar2 = false">Close</v-btn>
     </v-snackbar>
+    <v-snackbar v-model="snackbar3">
+      <span>RSN updated!</span>
+      <v-btn color="blue" text @click="snackbar3 = false">Close</v-btn>
+    </v-snackbar>
     <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Welcome to Warbanderz</h3>
     <v-divider></v-divider>
     <v-container class="fill-height" fluid>
@@ -98,6 +102,7 @@ export default {
       isMember: false,
       snackbar: false,
       snackbar2: false,
+      snackbar3: false,
       rsn: null
       // users: []
     };
@@ -165,11 +170,15 @@ export default {
     },
     addRsn() {
       var user = firebase.auth().currentUser;
+      // this.snackbar2 = true;
       user
         .updateProfile({
           displayName: this.rsn
         })
-        .then(() => console.log(user.displayName))
+        .then(() => {
+          console.log(user.displayName);
+          this.snackbar3 = true;
+        })
         .catch(err => console.log(err));
     }
   }
