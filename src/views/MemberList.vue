@@ -35,9 +35,9 @@
               <tr v-for="(member, index) in members" :key="index">
                 <td
                   :class="{
-    'gold-star': member.rank === 'Gold Star',
-    'silver-star': member.rank === 'Silver Star',
-    'bronze-star': member.rank === 'Bronze Star',
+    'gold-star': member.rank === 'Gold',
+    'silver-star': member.rank === 'Silver',
+    'bronze-star': member.rank === 'Bronze',
   }"
                 >
                   {{member.name}}
@@ -63,8 +63,8 @@
                 <td
                   :class="{
                  'change-smiley': member.total >= 10 && member.rank === 'Smiley',
-                 'change-1banana': member.total >= 50 && member.rank === '1 Banana',
-                 'change-2banana': member.total >= 100 && member.rank === '2 Banana'
+                 'change-1banana': member.total >= 50 && member.rank === 'Recruit',
+                 'change-2banana': member.total >= 100 && member.rank === 'Corporal'
                 }"
                 >{{member.total}}</td>
                 <td>{{member.vouch}}</td>
