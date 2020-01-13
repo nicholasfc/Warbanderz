@@ -12,6 +12,7 @@
               <th class="text-left title">Points - (A,H,S)</th>
               <th class="text-left title">Vouch</th>
               <th class="text-left title">Reason</th>
+              <th class="text-left title">Comments</th>
               <th class="text-left title">Date</th>
               <th></th>
             </tr>
@@ -24,8 +25,15 @@
               <td>{{member.total}} - ({{member.anti}}, {{member.host}}, {{member.scout}})</td>
               <td>{{member.vouch}}</td>
               <td>{{member.reason}}</td>
+              <td>{{member.comments}}</td>
               <td>{{member.time.toDate() | formatDate}}</td>
               <td>
+                <router-link
+                  v-if="member.name"
+                  :to="{path: '/', name: 'editremoved', params: {name: member.name}}"
+                >
+                  <v-icon color="light-blue darken-4" dense>mdi-pencil</v-icon>
+                </router-link>
                 <v-icon color="error" @click="deleteRow(index)">mdi-delete</v-icon>
               </td>
             </tr>
@@ -54,28 +62,22 @@ export default {
     }
   },
   created() {
-    db.collection("removedlog")
-      .orderBy("name")
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const data = {
-            id: doc.id,
-            name: doc.data().name,
-            rank: doc.data().rank,
-            alt: doc.data().alt,
-            total: doc.data().total,
-            anti: doc.data().anti,
-            scout: doc.data().scout,
-            host: doc.data().host,
-            reason: doc.data().reason,
-            time: doc.data().time
-          };
-          this.removeds.push(data);
-        });
-      });
+    this.fetchDb();
   },
   methods: {
+    fetchDb() {
+      db.collection("removedlog")
+        .orderBy("name")
+        .onSnapshot(snap => {
+          const removeds = [];
+          snap.forEach(doc => {
+            let newPlayer = doc.data();
+            newPlayer.id = doc.id;
+            removeds.push(newPlayer);
+          });
+          this.removeds = removeds;
+        });
+    },
     deleteRow(index) {
       if (confirm("Are you sure?")) {
         db.collection("removedlog")
