@@ -9,8 +9,13 @@
                 <v-toolbar-title>Add Player</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-form>
-                  <v-text-field required label="Player Name" v-model="name"></v-text-field>
+                <v-form ref="form">
+                  <v-text-field
+                    required
+                    label="Player Name"
+                    v-model="name"
+                    :rules="[rules.required]"
+                  ></v-text-field>
                   <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
                   <v-text-field label="Alt Name" v-model="alt"></v-text-field>
                   <v-text-field label="Total Points" v-model.number="total"></v-text-field>
@@ -47,27 +52,32 @@ export default {
         "Bronze",
         "Silver",
         "Gold"
-      ]
+      ],
+      rules: {
+        required: value => !!value || "Required."
+      }
     };
   },
   methods: {
     onSubmit() {
-      db.collection("members")
-        .add({
-          name: this.name,
-          rank: this.rank,
-          alt: this.alt,
-          scout: 0,
-          anti: 0,
-          host: 0,
-          total: this.total,
-          vouch: this.vouch,
-          comments: this.comments
-        })
-        .then(docRef => {
-          this.$router.push("/member");
-        })
-        .catch(err => console.log(err));
+      if (this.$refs.form.validate()) {
+        db.collection("members")
+          .add({
+            name: this.name,
+            rank: "Smiley",
+            alt: this.alt,
+            scout: 0,
+            anti: 0,
+            host: 0,
+            total: this.total,
+            vouch: this.vouch,
+            comments: this.comments
+          })
+          .then(docRef => {
+            this.$router.push("/member");
+          })
+          .catch(err => console.log(err));
+      }
     }
   }
 };

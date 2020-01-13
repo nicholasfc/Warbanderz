@@ -6,8 +6,8 @@
           <v-col cols="12" sm="8" md="4">
             <v-toolbar-title align="center">Player Edit</v-toolbar-title>
             <v-card-text>
-              <v-form>
-                <v-text-field disabled label="Player Name" v-model="name" required></v-text-field>
+              <v-form ref="form">
+                <v-text-field disabled label="Player Name" v-model="name"></v-text-field>
                 <v-select disabled label="Rank" v-model="rank" :items="ranks"></v-select>
                 <v-text-field disabled label="Alt Name" v-model="alt"></v-text-field>
                 <v-text-field disabled label="Scout Points" v-model.number="scout"></v-text-field>
@@ -15,7 +15,8 @@
                 <v-text-field disabled label="Host Points" v-model.number="host"></v-text-field>
                 <v-text-field disabled label="Total Points" v-model.number="total"></v-text-field>
                 <v-text-field disabled label="Vouch" v-model.number="vouch"></v-text-field>
-                <v-text-field label="Reason" v-model="reason"></v-text-field>
+                <v-text-field disabled label="Comments" v-model="comments"></v-text-field>
+                <v-text-field :rules="[rules.required]" label="Reason" v-model="reason"></v-text-field>
                 <v-btn text small class="error mr-5" @click="deletePlayer()">Delete Player</v-btn>
                 <v-btn text small to="/member" class="primary">Return</v-btn>
               </v-form>
@@ -39,8 +40,9 @@ export default {
       anti: null,
       host: null,
       total: null,
-      comments: "",
-      reason: null,
+      comments: null,
+      vouch: null,
+      reason: "",
       ranks: [
         "Smiley",
         "1 Banana",
@@ -49,7 +51,10 @@ export default {
         "Bronze Star",
         "Silver Star",
         "Gold Star"
-      ]
+      ],
+      rules: {
+        required: value => !!value || "Required."
+      }
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -95,27 +100,30 @@ export default {
         });
     },
     deletePlayer() {
-      db.collection("removedlog").add({
-        name: this.name,
-        rank: this.rank,
-        alt: this.alt,
-        scout: this.scout,
-        anti: this.anti,
-        host: this.host,
-        total: this.total,
-        vouch: this.vouch,
-        reason: this.reason,
-        time: tstp.fromDate(new Date())
-      });
-      db.collection("members")
-        .where("name", "==", this.$route.params.name)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            doc.ref.delete();
-            this.$router.push("/member");
-          });
+      if (this.$refs.form.validate()) {
+        db.collection("removedlog").add({
+          name: this.name,
+          rank: this.rank,
+          alt: this.alt,
+          scout: this.scout,
+          anti: this.anti,
+          host: this.host,
+          total: this.total,
+          vouch: this.vouch,
+          reason: this.reason,
+          comments: this.comments,
+          time: tstp.fromDate(new Date())
         });
+        db.collection("members")
+          .where("name", "==", this.$route.params.name)
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              doc.ref.delete();
+              this.$router.push("/removed");
+            });
+          });
+      }
     }
   }
 };

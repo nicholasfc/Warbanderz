@@ -40,7 +40,6 @@ export default {
       host: null,
       total: null,
       vouch: null,
-      // dateAdded: null,
       comments: "",
       ranks: [
         "Smiley",
@@ -101,12 +100,6 @@ export default {
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            // var total = this.scout + this.anti + this.host + this.total;
-            // console.log("before if: " + total);
-            // if (this.scout === 0 && this.anti === 0 && this.host === 0) {
-            //   total = this.total;
-            //   console.log("first if: " + total);
-            // }
             doc.ref
               .update({
                 name: this.name,
@@ -117,14 +110,12 @@ export default {
                 host: this.host,
                 total: this.total,
                 vouch: this.vouch,
-                // dateAdded: this.dateAdded,
                 comments: this.comments
               })
               .then(() => {
                 this.$router.push("/member");
               });
           });
-          // console.log(this.dateAdded);
         });
     }
   }
