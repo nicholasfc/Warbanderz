@@ -2,23 +2,22 @@
   <div class="navbar">
     <nav>
       <v-toolbar flat text dark dense color="blue-grey darken-3">
-        <!-- LOGO-->
+        <!-- LOGO -->
         <v-toolbar-title class="d-none d-sm-flex hidden-xs-and-down">
-          <router-link to="/" class="text-uppercase link navBar">Warbanderz</router-link>
+          <router-link to="/" class="text-uppercase navBar">Warbanderz</router-link>
         </v-toolbar-title>
         <v-toolbar-title class="hidden-sm-and-up">
-          <router-link to="/" class="text-uppercase link navBar">Wbz</router-link>
+          <router-link to="/" class="text-uppercase navBar">Wbz</router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
 
         <!-- NORMAL MENU -->
-
         <v-toolbar-items
           class="d-sm-none d-md-flex hidden-sm-and-down"
           v-if="isLoggedIn && isMember || isAdmin"
         >
           <v-btn text to="/member" v-if="isLoggedIn">Member List</v-btn>
-          <v-btn text to="/add" v-if="isLoggedIn && isAdmin">Add Member</v-btn>
+          <!-- <v-btn text to="/add" v-if="isLoggedIn && isAdmin">Add Member</v-btn> -->
           <v-btn text to="/log" v-if="isLoggedIn">Point Log</v-btn>
           <v-btn text to="/removed" v-if="isLoggedIn && isAdmin">Removed Members</v-btn>
         </v-toolbar-items>
@@ -37,11 +36,11 @@
                   <v-list-item-title>Member List</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item link href="/add" v-if="isLoggedIn && isAdmin">
+              <!-- <v-list-item link href="/add" v-if="isLoggedIn && isAdmin">
                 <v-list-item-content>
                   <v-list-item-title>Add Member</v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item>-->
               <v-list-item link href="/log" v-if="isLoggedIn">
                 <v-list-item-content>
                   <v-list-item-title>Points Log</v-list-item-title>
@@ -56,7 +55,7 @@
           </v-menu>
         </v-toolbar-items>
 
-        <!-- LOGOUT BUTTON-->
+        <!-- LOGOUT BUTTON -->
         <v-divider vertical v-if="isLoggedIn"></v-divider>
         <v-toolbar-items>
           <v-btn text class="red darken-1" v-if="isLoggedIn" @click="logout()">
@@ -81,6 +80,7 @@ export default {
     };
   },
   created() {
+    //Check User Claims
     firebase
       .auth()
       .currentUser.getIdTokenResult()
@@ -91,6 +91,7 @@ export default {
           this.isMember = true;
         }
       });
+    //Check if User is Loged In
     if (firebase.auth().currentUser) {
       this.isLoggedIn = true;
     }
@@ -110,6 +111,7 @@ export default {
 
 <style scoped>
 .navBar {
-  text-decoration: none;
+  color: inherit;
+  text-decoration: inherit;
 }
 </style>
