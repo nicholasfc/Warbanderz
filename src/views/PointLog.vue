@@ -3,7 +3,7 @@
     <v-content>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="4" lg="12">
-          <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Point Log</h3>
+          <h3 class="font-weight-regular text-center pa-1 ma-1 display-1">Point Log</h3>
           <v-card-text align="center">
             <p v-for="log in logs" :key="log.id" class="body-2">
               <span class="font-weight-bold">{{log.name}}</span>
