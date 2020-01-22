@@ -8,13 +8,15 @@
             <v-card-text>
               <v-form ref="form">
                 <v-text-field disabled label="Player Name" v-model="name"></v-text-field>
-                <v-select disabled label="Rank" v-model="rank" :items="ranks"></v-select>
+                <v-text-field disabled label="Rank" v-model="rank"></v-text-field>
                 <v-text-field disabled label="Alt Name" v-model="alt"></v-text-field>
                 <v-text-field disabled label="Scout Points" v-model.number="scout"></v-text-field>
                 <v-text-field disabled label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field disabled label="Host Points" v-model.number="host"></v-text-field>
                 <v-text-field disabled label="Total Points" v-model.number="total"></v-text-field>
-                <v-text-field disabled label="Vouch" v-model.number="vouch"></v-text-field>
+                <v-text-field disabled label="Vouch" v-model="vouch"></v-text-field>
+                <v-text-field disabled label="Name Added" v-model="nameAdded"></v-text-field>
+                <v-text-field disabled label="Clan" v-model="clan"></v-text-field>
                 <v-text-field disabled label="Comments" v-model="comments"></v-text-field>
                 <v-text-field :rules="[rules.required]" label="Reason" v-model="reason"></v-text-field>
                 <v-btn text small class="error mr-5" @click="deletePlayer()">Delete Player</v-btn>
@@ -41,17 +43,20 @@ export default {
       host: null,
       total: null,
       comments: null,
+      clan: null,
+      dateAdded: null,
+      nameAdded: null,
       vouch: null,
       reason: "",
-      ranks: [
-        "Smiley",
-        "1 Banana",
-        "2 Banana",
-        "3 Banana",
-        "Bronze Star",
-        "Silver Star",
-        "Gold Star"
-      ],
+      // ranks: [
+      //   "Smiley",
+      //   "1 Banana",
+      //   "2 Banana",
+      //   "3 Banana",
+      //   "Bronze Star",
+      //   "Silver Star",
+      //   "Gold Star"
+      // ],
       rules: {
         required: value => !!value || "Required."
       }
@@ -72,6 +77,9 @@ export default {
             vm.host = doc.data().host;
             vm.total = doc.data().total;
             vm.vouch = doc.data().vouch;
+            vm.clan = doc.data().clan;
+            vm.dateAdded = doc.data().dateAdded;
+            vm.nameAdded = doc.data().nameAdded;
             vm.comments = doc.data().comments;
           });
         });
@@ -95,6 +103,9 @@ export default {
             this.host = doc.data().host;
             this.total = doc.data().total;
             this.vouch = doc.data().vouch;
+            this.clan = doc.data().clan;
+            this.dateAdded = doc.data().dateAdded;
+            this.nameAdded = doc.data().nameAdded;
             this.comments = doc.data().comments;
           });
         });
@@ -110,6 +121,9 @@ export default {
           host: this.host,
           total: this.total,
           vouch: this.vouch,
+          clan: this.clan,
+          nameAdded: this.nameAdded,
+          dateAdded: this.dateAdded,
           reason: this.reason,
           comments: this.comments,
           time: tstp.fromDate(new Date())

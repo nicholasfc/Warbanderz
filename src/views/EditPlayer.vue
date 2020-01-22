@@ -15,6 +15,8 @@
                 <v-text-field label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field label="Total Points" v-model.number="total"></v-text-field>
                 <v-text-field label="Vouch" v-model="vouch"></v-text-field>
+                <v-text-field label="Clan" v-model="clan"></v-text-field>
+                <v-text-field label="Name Added" v-model="nameAdded"></v-text-field>
                 <v-textarea label="Comments" v-model="comments"></v-textarea>
                 <v-btn text small class="success mr-5" @click="updatePlayer()">Update Player</v-btn>
                 <v-btn text small to="/member" class="error">Cancel</v-btn>
@@ -39,6 +41,8 @@ export default {
       anti: null,
       host: null,
       total: null,
+      clan: null,
+      nameAdded: null,
       vouch: null,
       comments: "",
       ranks: [
@@ -67,6 +71,8 @@ export default {
             vm.host = doc.data().host;
             vm.total = doc.data().total;
             vm.vouch = doc.data().vouch;
+            vm.nameAdded = doc.data().nameAdded;
+            vm.clan = doc.data().clan;
             vm.comments = doc.data().comments;
           });
         });
@@ -90,6 +96,8 @@ export default {
             this.host = doc.data().host;
             this.total = doc.data().total;
             this.vouch = doc.data().vouch;
+            this.clan = doc.data().clan;
+            this.nameAdded = doc.data().nameAdded;
             this.comments = doc.data().comments;
           });
         });
@@ -109,7 +117,9 @@ export default {
                 anti: this.anti,
                 host: this.host,
                 total: this.total,
+                nameAdded: this.nameAdded,
                 vouch: this.vouch,
+                clan: this.clan,
                 comments: this.comments
               })
               .then(() => {

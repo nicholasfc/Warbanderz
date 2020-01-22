@@ -15,6 +15,8 @@
                 <v-text-field label="Anti Points" v-model.number="anti"></v-text-field>
                 <v-text-field label="Total Points" v-model.number="total"></v-text-field>
                 <v-text-field label="Vouch" v-model="vouch"></v-text-field>
+                <v-text-field label="Clan" v-model="clan"></v-text-field>
+                <v-text-field label="Name Added" v-model="nameAdded"></v-text-field>
                 <v-text-field label="Reason" v-model="reason"></v-text-field>
                 <v-textarea label="Comments" v-model="comments"></v-textarea>
                 <v-btn text small class="success mr-5" @click="updatePlayer()">Update Player</v-btn>
@@ -30,6 +32,7 @@
 
 <script>
 import { db, tstp } from "../data/firebaseInit";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -41,7 +44,9 @@ export default {
       host: null,
       total: null,
       vouch: null,
+      clan: null,
       comments: null,
+      nameAdded: null,
       reason: null,
       ranks: [
         "Smiley",
@@ -69,6 +74,8 @@ export default {
             vm.host = doc.data().host;
             vm.total = doc.data().total;
             vm.vouch = doc.data().vouch;
+            vm.clan = doc.data().clan;
+            vm.nameAdded = doc.data().nameAdded;
             vm.comments = doc.data().comments;
             vm.reason = doc.data().reason;
           });
@@ -93,6 +100,8 @@ export default {
             this.host = doc.data().host;
             this.total = doc.data().total;
             this.vouch = doc.data().vouch;
+            this.clan = doc.data().clan;
+            this.nameAdded = doc.data().nameAdded;
             this.reason = doc.data().reason;
             this.comments = doc.data().comments;
           });
@@ -114,6 +123,8 @@ export default {
                 host: this.host,
                 total: this.total,
                 vouch: this.vouch,
+                clan: this.clan,
+                nameAdded: this.nameAdded,
                 comments: this.comments,
                 reason: this.reason
               })

@@ -1,31 +1,36 @@
 <template>
   <div class="removed-log">
-    <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Removed Players</h3>
+    <h3 class="font-weight-regular text-center pa-1 ma-1 display-1">Removed Players</h3>
     <template>
       <v-simple-table fixed-header dark dense height="80vh">
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left title">Name</th>
+              <th class="text-left title">Name(Added)</th>
               <th class="text-left title">Rank</th>
               <th class="text-left title">Alt</th>
               <th class="text-left title">Points - (A,H,S)</th>
               <th class="text-left title">Vouch</th>
+              <th class="text-left title">Clan</th>
               <th class="text-left title">Reason</th>
               <th class="text-left title">Comments</th>
-              <th class="text-left title">Date</th>
+              <th class="text-left title">Date Added</th>
+              <th class="text-left title">Date Deleted</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(member, index) in removeds" :key="index">
-              <td>{{member.name}}</td>
+              <td>{{member.name}}({{member.nameAdded}})</td>
               <td>{{member.rank}}</td>
               <td>{{member.alt}}</td>
               <td>{{member.total}} - ({{member.anti}}, {{member.host}}, {{member.scout}})</td>
               <td>{{member.vouch}}</td>
+              <td>{{member.clan}}</td>
               <td>{{member.reason}}</td>
               <td>{{member.comments}}</td>
+              <td v-if="member.dateAdded">{{member.dateAdded.toDate() | formatDate}}</td>
+              <td v-else>-</td>
               <td>{{member.time.toDate() | formatDate}}</td>
               <td>
                 <router-link

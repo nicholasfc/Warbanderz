@@ -4,91 +4,95 @@
       <span>Player Added!</span>
       <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
-    <h3 class="font-weight-medium text-center pa-3 ma-3 display-1">Member List</h3>
+    <h3 class="font-weight-regular text-center pa-1 ma-1 display-1">Member List</h3>
     <template v-if="isMember || isAdmin">
       <p
         v-for="log in logs"
         :key="log.id"
-        class="body-2 text-right"
+        class="body-2 text-right pr-4 removed-margin"
       >Last Point given @ {{log.time.toDate() | formatDate}}</p>
-      <p>
-        <v-simple-table fixed-header dark dense height="65vh">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left title">Name</th>
-                <th class="text-left title">Rank</th>
-                <th class="text-left title">Alt</th>
-                <th class="text-left title">Scout</th>
-                <th class="text-left title">Host</th>
-                <th class="text-left title">Anti</th>
-                <th class="text-left title">Total</th>
-                <th class="text-left title">Vouch</th>
-                <!-- <th class="text-left title">Added</th> -->
-                <th class="text-left title">Comments</th>
-                <template v-if="isAdmin">
-                  <th class="text-left"></th>
-                </template>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(member, index) in members" :key="index">
-                <td
-                  :class="{
+      <v-simple-table fixed-header dark dense height="70vh">
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left title">Name</th>
+              <th class="text-left title">Rank</th>
+              <th class="text-left title">Alt</th>
+              <th class="text-left title">Scout</th>
+              <th class="text-left title">Host</th>
+              <th class="text-left title">Anti</th>
+              <th class="text-left title">Total</th>
+              <!-- <th class="text-left title">Vouch</th>
+              <th class="text-left title">Clan</th>-->
+              <th class="text-left title">Comments</th>
+              <th class="text-left title">Date Added</th>
+              <template v-if="isAdmin">
+                <th class="text-left title">Admin</th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(member, index) in members" :key="index">
+              <td
+                :class="{
     'gold-star': member.rank === 'Gold',
     'silver-star': member.rank === 'Silver',
     'bronze-star': member.rank === 'Bronze',
   }"
-                >
-                  {{member.name}}
-                  <!-- <router-link :to="{ name: 'member', params: { name: member.name }}">{{member.name}}</router-link> -->
-                </td>
-                <td>{{member.rank}}</td>
-                <td>{{member.alt}}</td>
-                <td>
-                  <v-icon dense color="success" @click="addScout(index)">mdi-plus</v-icon>
-                  {{member.scout}}
-                  <v-icon dense color="error" @click="removeScout(index)">mdi-minus</v-icon>
-                </td>
-                <td>
-                  <v-icon dense color="success" @click="addHost(index)">mdi-plus</v-icon>
-                  {{member.host}}
-                  <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
-                </td>
-                <td>
-                  <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
-                  {{member.anti}}
-                  <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
-                </td>
-                <td
-                  :class="{
+              >
+                <!-- {{member.name}} -->
+                <router-link
+                  class="nameField"
+                  :to="{ name: 'member', params: { name: member.name }}"
+                >{{member.name}}</router-link>
+              </td>
+              <td>{{member.rank}}</td>
+              <td>{{member.alt}}</td>
+              <td>
+                <v-icon dense color="success" @click="addScout(index)">mdi-plus</v-icon>
+                {{member.scout}}
+                <v-icon dense color="error" @click="removeScout(index)">mdi-minus</v-icon>
+              </td>
+              <td>
+                <v-icon dense color="success" @click="addHost(index)">mdi-plus</v-icon>
+                {{member.host}}
+                <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
+              </td>
+              <td>
+                <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
+                {{member.anti}}
+                <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
+              </td>
+              <td
+                :class="{
                  'change-smiley': member.total >= 10 && member.rank === 'Smiley',
                  'change-1banana': member.total >= 50 && member.rank === 'Recruit',
                  'change-2banana': member.total >= 100 && member.rank === 'Corporal'
                 }"
-                >{{member.total}}</td>
-                <td>{{member.vouch}}</td>
-                <!-- <td>{{member.dateAdded}}</td> -->
-                <td>{{member.comments}}</td>
-                <template v-if="isAdmin">
-                  <td>
-                    <router-link
-                      v-if="member.name"
-                      :to="{path: '/', name: 'edit', params: {name: member.name}}"
-                    >
-                      <v-icon color="light-blue darken-4" dense>mdi-pencil</v-icon>
-                    </router-link>
-                    <router-link :to="{ path:'/', name: 'delete', params: { name: member.name }}">
-                      <v-icon dense color="error">mdi-delete</v-icon>
-                    </router-link>
-                  </td>
-                </template>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-        <Popup @playerAdded="snackbar = true" />
-      </p>
+              >{{member.total}}</td>
+              <!-- <td>{{member.vouch}}</td> -->
+              <!-- <td>{{member.clan}}</td> -->
+              <td>{{member.comments}}</td>
+              <td v-if="member.dateAdded">{{member.dateAdded.toDate() | formatDate2}}</td>
+              <td v-else>-</td>
+              <template v-if="isAdmin">
+                <td>
+                  <router-link
+                    v-if="member.name"
+                    :to="{path: '/', name: 'edit', params: {name: member.name}}"
+                  >
+                    <v-icon color="light-blue darken-4" dense>mdi-pencil</v-icon>
+                  </router-link>
+                  <router-link :to="{ path:'/', name: 'delete', params: { name: member.name }}">
+                    <v-icon dense color="error">mdi-delete</v-icon>
+                  </router-link>
+                </td>
+              </template>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+      <Popup @playerAdded="snackbar = true" />
     </template>
     <v-content v-if="!isAdmin && !isMember">
       <p
@@ -110,6 +114,7 @@ export default {
       isAdmin: false,
       isMember: false,
       snackbar: false,
+      menu2: false,
       members: [],
       logs: [],
       user: null
@@ -119,6 +124,11 @@ export default {
     formatDate: function(value) {
       if (value) {
         return moment(value).format("DD/MMM/YYYY HH:mm");
+      }
+    },
+    formatDate2: function(value) {
+      if (value) {
+        return moment(value).format("DD/MMM/YYYY");
       }
     }
   },
@@ -312,19 +322,25 @@ h3 {
   color: #eceff1;
 }
 
+.nameField {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.removed-margin {
+  margin-bottom: 4px;
+}
+
 .gold-star {
-  background-color: #fbc02d;
-  /* background-color: #ffee58; */
+  background-color: #d4af37;
 }
 
 .silver-star {
-  /* background-color: #bdbdbd; */
-  background-color: #616161;
+  background-color: #969c9f;
 }
 
 .bronze-star {
-  background-color: #f57c00;
-  /* background-color: #cd7f32; */
+  background-color: #d4660c;
 }
 
 .change-smiley,
