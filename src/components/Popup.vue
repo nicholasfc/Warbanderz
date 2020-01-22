@@ -1,7 +1,13 @@
 <template>
   <v-dialog max-width="600px" v-model="dialog" v-if="isAdmin">
     <template v-slot:activator="{ on }">
-      <v-icon color="green" x-large bottom right v-on="on">mdi-plus-circle</v-icon>
+      <v-btn class="ma-2" tile outlined color="success" v-on="on">
+        <v-icon left>mdi-plus-circle</v-icon>Add
+      </v-btn>
+      <!-- <v-btn>
+        Add Player
+        <v-icon color="green" x-large bottom right v-on="on">mdi-plus-circle</v-icon>
+      </v-btn>-->
     </template>
 
     <v-card>
@@ -15,6 +21,7 @@
           <v-text-field label="Alt Name" v-model="alt"></v-text-field>
           <v-text-field label="Total Points" v-model.number="total"></v-text-field>
           <v-text-field label="Vouch" v-model="vouch"></v-text-field>
+          <v-text-field label="Clan" v-model="clan"></v-text-field>
           <v-text-field label="Comments" v-model="comments"></v-text-field>
           <v-btn text class="success" @click="onSubmit()">Add Player</v-btn>
         </v-form>
@@ -37,6 +44,7 @@ export default {
       alt: null,
       total: null,
       vouch: null,
+      clan: null,
       ranks: [
         "Smiley",
         "Recruit",
@@ -68,7 +76,8 @@ export default {
     alt: "",
     total: "",
     vouch: "",
-    rank: ""
+    rank: "",
+    clan: ""
   },
   methods: {
     onSubmit() {
@@ -76,14 +85,17 @@ export default {
         db.collection("members")
           .add({
             name: this.name,
-            rank: "Smiley",
+            rank: this.rank,
             alt: this.alt,
             scout: 0,
             anti: 0,
             host: 0,
             total: this.total,
             vouch: this.vouch,
-            comments: this.comments
+            clan: this.clan,
+            comments: this.comments,
+            dateAdded: tstp.fromDate(new Date()),
+            nameAdded: this.name
           })
           .then(() => {
             this.dialog = false;
@@ -97,6 +109,7 @@ export default {
       this.total = "";
       this.rank = "";
       this.vouch = "";
+      this.clan = "";
       this.comments = "";
     }
   }
