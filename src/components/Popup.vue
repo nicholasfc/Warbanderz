@@ -4,10 +4,6 @@
       <v-btn class="ma-2" tile outlined color="success" v-on="on">
         <v-icon left>mdi-plus-circle</v-icon>Add
       </v-btn>
-      <!-- <v-btn>
-        Add Player
-        <v-icon color="green" x-large bottom right v-on="on">mdi-plus-circle</v-icon>
-      </v-btn>-->
     </template>
 
     <v-card>
@@ -16,14 +12,42 @@
       </v-toolbar>
       <v-card-text>
         <v-form ref="form">
-          <v-text-field required label="Player Name" v-model="name" :rules="[rules.required]"></v-text-field>
+          <v-row align="center" justify="center">
+            <v-col cols="12" sm="6" md="2" lg="6">
+              <v-text-field required label="Player Name" v-model="name" :rules="[rules.required]"></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="2" lg="6">
+              <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
+            </v-col>
+            <v-col cols="12" sm="6" md="2" lg="6">
+              <v-text-field label="Alt Name" v-model="alt"></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="2" lg="6">
+              <v-text-field label="Total Points" v-model.number="total"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row align="center" justify="center">
+            <v-col cols="12" sm="6" md="2" lg="6">
+              <v-text-field label="Vouch" v-model="vouch"></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="2" lg="6">
+              <v-text-field label="Clan" v-model="clan"></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="2" lg="6">
+              <v-text-field label="Comments" v-model="comments"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row align="center" justify="center">
+            <v-btn text class="success" @click="onSubmit()">Add Player</v-btn>
+          </v-row>
+          <!-- <v-text-field required label="Player Name" v-model="name" :rules="[rules.required]"></v-text-field>
           <v-select label="Rank" v-model="rank" :items="ranks"></v-select>
           <v-text-field label="Alt Name" v-model="alt"></v-text-field>
           <v-text-field label="Total Points" v-model.number="total"></v-text-field>
           <v-text-field label="Vouch" v-model="vouch"></v-text-field>
           <v-text-field label="Clan" v-model="clan"></v-text-field>
           <v-text-field label="Comments" v-model="comments"></v-text-field>
-          <v-btn text class="success" @click="onSubmit()">Add Player</v-btn>
+          <v-btn text class="success" @click="onSubmit()">Add Player</v-btn>-->
         </v-form>
       </v-card-text>
     </v-card>

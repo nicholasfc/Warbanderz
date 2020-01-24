@@ -2,12 +2,57 @@
   <div class="edit-player">
     <v-content>
       <v-container>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-toolbar-title align="center">Player Edit</v-toolbar-title>
-            <v-card-text>
-              <v-form ref="form">
+        <v-toolbar-title align="center">Player Edit</v-toolbar-title>
+        <v-card-text>
+          <v-form ref="form">
+            <v-row>
+              <v-col cols="12" sm="6" md="2" lg="6">
                 <v-text-field disabled label="Player Name" v-model="name"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Rank" v-model="rank"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Alt Name" v-model="alt"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Name Added" v-model="nameAdded"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Scout Points" v-model.number="scout"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Anti Points" v-model.number="anti"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Host Points" v-model.number="host"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Total Points" v-model.number="total"></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Vouch" v-model="vouch"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Clan" v-model="clan"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2" lg="6">
+                <v-text-field disabled label="Comments" v-model="comments"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="12" lg="6">
+                <v-text-field :rules="[rules.required]" label="Reason" v-model="reason"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row align="center" justify="center">
+              <v-btn text small class="error mr-5" @click="deletePlayer()">Delete Player</v-btn>
+              <v-btn text small to="/member" class="primary">Return</v-btn>
+            </v-row>
+            <!-- <v-text-field disabled label="Player Name" v-model="name"></v-text-field>
                 <v-text-field disabled label="Rank" v-model="rank"></v-text-field>
                 <v-text-field disabled label="Alt Name" v-model="alt"></v-text-field>
                 <v-text-field disabled label="Scout Points" v-model.number="scout"></v-text-field>
@@ -20,11 +65,9 @@
                 <v-text-field disabled label="Comments" v-model="comments"></v-text-field>
                 <v-text-field :rules="[rules.required]" label="Reason" v-model="reason"></v-text-field>
                 <v-btn text small class="error mr-5" @click="deletePlayer()">Delete Player</v-btn>
-                <v-btn text small to="/member" class="primary">Return</v-btn>
-              </v-form>
-            </v-card-text>
-          </v-col>
-        </v-row>
+            <v-btn text small to="/member" class="primary">Return</v-btn>-->
+          </v-form>
+        </v-card-text>
       </v-container>
     </v-content>
   </div>
