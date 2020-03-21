@@ -22,10 +22,9 @@
               <th class="text-left title">Host</th>
               <th class="text-left title">Anti</th>
               <th class="text-left title">Total</th>
-              <!-- <th class="text-left title">Vouch</th>
-              <th class="text-left title">Clan</th>-->
               <th class="text-left title">Comments</th>
               <th class="text-left title">Date Added</th>
+              <th class="text-left title">Active</th>
               <template v-if="isAdmin">
                 <th class="text-left title">Admin</th>
               </template>
@@ -35,12 +34,11 @@
             <tr v-for="(member, index) in members" :key="index">
               <td
                 :class="{
-    'gold-star': member.rank === 'Gold',
-    'silver-star': member.rank === 'Silver',
-    'bronze-star': member.rank === 'Bronze',
-  }"
+                  'gold-star': member.rank === 'Gold',
+                  'silver-star': member.rank === 'Silver',
+                  'bronze-star': member.rank === 'Bronze',
+                }"
               >
-                <!-- {{member.name}} -->
                 <router-link
                   class="nameField"
                   :to="{ name: 'member', params: { name: member.name }}"
@@ -51,17 +49,32 @@
               <td>
                 <v-icon dense color="success" @click="addScout(index)">mdi-plus</v-icon>
                 {{member.scout}}
-                <v-icon dense color="error" @click="removeScout(index)">mdi-minus</v-icon>
+                <v-icon
+                  dense
+                  color="error"
+                  @click="removeScout(index)"
+                  v-if="member.scout !== 0"
+                >mdi-minus</v-icon>
               </td>
               <td>
                 <v-icon dense color="success" @click="addHost(index)">mdi-plus</v-icon>
                 {{member.host}}
-                <v-icon dense color="error" @click="removeHost(index)">mdi-minus</v-icon>
+                <v-icon
+                  dense
+                  color="error"
+                  @click="removeHost(index)"
+                  v-if="member.host !== 0"
+                >mdi-minus</v-icon>
               </td>
               <td>
                 <v-icon dense color="success" @click="addAnti(index)">mdi-plus</v-icon>
                 {{member.anti}}
-                <v-icon dense color="error" @click="removeAnti(index)">mdi-minus</v-icon>
+                <v-icon
+                  dense
+                  color="error"
+                  @click="removeAnti(index)"
+                  v-if="member.anti !== 0"
+                >mdi-minus</v-icon>
               </td>
               <td
                 :class="{
@@ -70,11 +83,14 @@
                  'change-2banana': member.total >= 100 && member.rank === 'Corporal'
                 }"
               >{{member.total}}</td>
-              <!-- <td>{{member.vouch}}</td> -->
-              <!-- <td>{{member.clan}}</td> -->
               <td>{{member.comments}}</td>
               <td v-if="member.dateAdded">{{member.dateAdded.toDate() | formatDate2}}</td>
               <td v-else>-</td>
+              <td>
+                <v-icon dense color="success" @click="addActive(index)">mdi-check</v-icon>
+                {{member.active}}
+                <v-icon dense color="error" @click="removeActive(index)">mdi-close</v-icon>
+              </td>
               <template v-if="isAdmin">
                 <td>
                   <router-link
@@ -298,6 +314,32 @@ export default {
         addRemove: "removed",
         byWho: this.user
       });
+    },
+    addActive(index) {
+      db.collection("members")
+        .where("name", "==", this.members[index].name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              active: "Yes"
+            });
+          });
+        })
+        .then(() => this.fetchDb());
+    },
+    removeActive(index) {
+      db.collection("members")
+        .where("name", "==", this.members[index].name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              active: "No"
+            });
+          });
+        })
+        .then(() => this.fetchDb());
     },
     deletePlayer(index) {
       if (confirm("Are you sure?")) {

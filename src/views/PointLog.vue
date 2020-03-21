@@ -64,7 +64,7 @@ export default {
       isMember: false,
       isAdmin: false,
       searched: [],
-      name
+      name: ""
     };
   },
   filters: {
