@@ -107,7 +107,7 @@ export default {
             comments: this.comments,
             dateAdded: tstp.fromDate(new Date()),
             nameAdded: this.name,
-            active: "No"
+            active: ""
           })
           .then(() => {
             this.dialog = false;

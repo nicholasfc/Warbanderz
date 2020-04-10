@@ -55,23 +55,13 @@
                     </v-form>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
-                <!-- <v-expansion-panel>
-                  <v-expansion-panel-header>Members</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <p v-for="user in users" :key="user.id" class="body-2">
-                      <span class="font-weight-bold">{{user.name}}</span> -
-                      <span class="font-weight-bold">{{user.email}}</span> -
-                      <span class="font-weight-bold">{{user.claims}}</span>
-                    </p>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>-->
                 <v-expansion-panel>
-                  <v-expansion-panel-header>Add RSN</v-expansion-panel-header>
+                  <v-expansion-panel-header>Purge</v-expansion-panel-header>
                   <v-expansion-panel-content>
-                    <v-form>
-                      <v-text-field required label="Enter RSN to update info" v-model="rsn"></v-text-field>
-                      <v-btn text class="success" @click="addRsn()">Add RSN</v-btn>
-                    </v-form>
+                    <h3 class="text-center mb-4" v-if="purge === true">Purge is on</h3>
+                    <h3 class="text-center mb-4" v-if="purge === false">Purge is off</h3>
+                    <v-btn text class="success mr-4 mb-4" @click="purgeOn()">Turn Purge On</v-btn>
+                    <v-btn text class="error mb-4" @click="purgeOff()">Turn Purge off</v-btn>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
               </v-expansion-panels>
@@ -103,8 +93,8 @@ export default {
       snackbar: false,
       snackbar2: false,
       snackbar3: false,
-      rsn: null
-      // users: []
+      rsn: null, 
+      purge: null
     };
   },
   created() {
@@ -118,22 +108,21 @@ export default {
           this.isMember = true;
         }
       });
-    // db.collection("users")
-    //   .orderBy("name", "desc")
-    //   .get()
-    //   .then(querySnapshot => {
-    //     querySnapshot.forEach(doc => {
-    //       const data = {
-    //         id: doc.id,
-    //         name: doc.data().name,
-    //         email: doc.data().email,
-    //         claims: doc.data().claims
-    //       };
-    //       this.users.push(data);
-    //     });
-    //   });
+      this.fetchDb();
   },
   methods: {
+    fetchDb(){
+      db.collection("variables_table")
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            const data = {
+              purge: doc.data().purge,
+            };
+            this.purge = data.purge;
+          });
+        });
+    },
     addAdmin() {
       const addAdminRole = fc.httpsCallable("addAdminRole");
       addAdminRole({ email: this.email }).then(result => {
@@ -168,18 +157,29 @@ export default {
           });
         });
     },
-    addRsn() {
-      var user = firebase.auth().currentUser;
-      // this.snackbar2 = true;
-      user
-        .updateProfile({
-          displayName: this.rsn
+    purgeOn(){
+      db.collection("variables_table")
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              purge: true
+            });
+          });
         })
-        .then(() => {
-          console.log(user.displayName);
-          this.snackbar3 = true;
+        .then(() => this.fetchDb());
+    },
+    purgeOff(){
+      db.collection("variables_table")
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.update({
+              purge: false
+            });
+          });
         })
-        .catch(err => console.log(err));
+        .then(() => this.fetchDb());
     }
   }
 };

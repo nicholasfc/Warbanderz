@@ -24,7 +24,9 @@
               <th class="text-left title">Total</th>
               <th class="text-left title">Comments</th>
               <th class="text-left title">Date Added</th>
-              <th class="text-left title">Active</th>
+              <!-- Purge Column not being used -->
+              <th class="text-left title" v-if="purge === true">Active</th>
+             
               <template v-if="isAdmin">
                 <th class="text-left title">Admin</th>
               </template>
@@ -86,7 +88,8 @@
               <td>{{member.comments}}</td>
               <td v-if="member.dateAdded">{{member.dateAdded.toDate() | formatDate2}}</td>
               <td v-else>-</td>
-              <td>
+              <!-- Purge Column currently not being used-->
+              <td v-if="purge === true">
                 <v-icon dense color="success" @click="addActive(index)">mdi-check</v-icon>
                 {{member.active}}
                 <v-icon dense color="error" @click="removeActive(index)">mdi-close</v-icon>
@@ -133,7 +136,8 @@ export default {
       menu2: false,
       members: [],
       logs: [],
-      user: null
+      user: null,
+      purge: null
     };
   },
   filters: {
@@ -158,6 +162,16 @@ export default {
         } else if (idTokenResult.claims.member) {
           this.isMember = true;
         }
+      });
+      db.collection("variables_table")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = {
+            purge: doc.data().purge,
+          };
+          this.purge = data.purge;
+        });
       });
     this.fetchDb();
     var user = firebase.auth().currentUser.displayName;
@@ -335,7 +349,7 @@ export default {
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             doc.ref.update({
-              active: "No"
+              active: ""
             });
           });
         })
