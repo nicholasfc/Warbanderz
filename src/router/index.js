@@ -1,20 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Memberlist from "../views/MemberList";
-import AddPlayer from "../views/AddPlayer";
-import Member from "../views/Member";
-import EditPlayer from "../views/EditPlayer";
 import Login from "../views/Login";
-import Register from "../views/Register";
-import ResetPw from "../views/ResetPw";
-import PointLog from "../views/PointLog";
-import RemovedLog from "../views/RemovedLog";
-import DeletePlayer from "../views/DeletePlayer";
-import EditRemoved from "../views/EditRemoved";
 import firebase from "firebase/app";
 
 Vue.use(VueRouter);
+
+const Memberlist = () => import(/* webpackChunkName: "memberlist" */ '../views/MemberList.vue');
+const RemovedLog = () => import(/* webpackChunkName: "removedlog" */ '../views/RemovedLog.vue');
+const PointLog = () => import(/* webpackChunkName: "pointlog" */ '../views/PointLog.vue');
+const Member = () => import(/* webpackChunkName: "member" */ '../views/Member.vue');
+const EditPlayer = () => import(/* webpackChunkName: "editplayer" */ '../views/EditPlayer.vue');
+const DeletePlayer = () => import(/* webpackChunkName: "deleteplayer" */ '../views/DeletePlayer.vue');
+const EditRemoved = () => import(/* webpackChunkName: "editremoved" */ '../views/EditRemoved.vue');
+const ResetPw = () => import(/* webpackChunkName: "resetpw" */ '../views/ResetPw.vue');
+const Register = () => import(/* webpackChunkName: "register" */ '../views/Register.vue');
 
 const routes = [
     {
@@ -28,17 +28,17 @@ const routes = [
     {
         path: "/login",
         name: "login",
-        component: Login
+        component: Login,
     },
     {
         path: "/register",
         name: "register",
-        component: Register
+        component: Register,
     },
     {
         path: "/resetpw",
         name: "resetpw",
-        component: ResetPw
+        component: ResetPw,
     },
     {
         path: "/member",
