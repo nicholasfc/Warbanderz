@@ -121,7 +121,7 @@ export default {
       // this.total = "";
       this.rank = "";
       this.vouch = "";
-      // this.clan = "";
+      this.clan = "";
       this.comments = "";
     }
   }
